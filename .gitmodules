@@ -1,0 +1,12 @@
+[submodule ".zsh/battery-indicator-mac"]
+	path = .zsh/battery-indicator-mac
+	url = git@github.com:jooize/battery-indicator-mac.git
+[submodule ".zsh/git-prompt"]
+	path = .zsh/git-prompt
+	url = git@github.com:jooize/zsh-git-prompt.git
+[submodule ".zsh/history-substring-search"]
+	path = .zsh/history-substring-search
+	url = https://github.com/zsh-users/zsh-history-substring-search.git
+[submodule ".zsh/syntax-highlighting"]
+	path = .zsh/syntax-highlighting
+	url = https://github.com/zsh-users/zsh-syntax-highlighting.git
