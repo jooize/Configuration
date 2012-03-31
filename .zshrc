@@ -194,9 +194,9 @@ bindkey -M vicmd "^[^h" backward-kill-word
 # }
 # Scripts {
 # Fish-like syntax highlighting
-. $HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+. $HOME/.zsh/syntax-highlighting/zsh-syntax-highlighting.zsh
 # Fish-like history search
-. $HOME/.zsh/zsh-history-substring-search/zsh-history-substring-search.zsh
+. $HOME/.zsh/history-substring-search/zsh-history-substring-search.zsh
 # Git Prompt
 . $HOME/.zsh/git-prompt/zshrc.sh
 # }
