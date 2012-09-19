@@ -1,104 +1,131 @@
-" Modeline and Notes {
-"   vim: set foldmarker={,} foldlevel=0 expandtab:
+" Modeline and Notes {{{
+"   vim: set foldmarker={{{,}}} expandtab:
 "   Original: http://vi-improved.org/vimrc.php
-" }
-" Basics {
+" }}}
+" Basics {{{
+    set nocompatible " Explicitly get out of vi-compatible mode
+    set noexrc " Don't use local version of .(g)vimrc, .exrc
+    set background=dark
+    set shell=/bin/zsh
     if has("gui_running") " Necessary here for 256 color theme to load
         set t_Co=256 " Force 256 colors for GUI Vim (e.g. MacVim)
     endif
-    set nocompatible " Explicitly get out of vi-compatible mode
-    set noexrc " Don't use local version of .(g)vimrc, .exrc
-    set background=dark " We plan to use a dark background
     if has('syntax') && (&t_Co > 2)
         syntax on " Syntax highlighting on
     endif
-" }
-" General {
     filetype plugin indent on " Load filetype plugins/indent settings
-    "set autochdir " Always switch to the current file directory
+" }}}
+" General {{{
+"    set autochdir " Always switch to the current file directory
+"    set autoread " http://vim.wikia.com/wiki/Have_Vim_check_automatically_if_the_file_has_changed_externally
     set backspace=indent,eol,start " Make backspace delete linebreaks
-    set backup " Make backup files
-    set backupdir=$HOME/.vim/backup " Where to put backup files
-    "set cpoptions=aABceFsmq
-    "             |||||||||
-    "             ||||||||+-- When joining lines, leave the cursor
-    "             |||||||      between joined lines
-    "             |||||||+-- When a new match is created (showmatch)
-    "             ||||||      pause for .5
-    "             ||||||+-- Set buffer options when entering the
-    "             |||||      buffer
-    "             |||||+-- :write command updates current file name
-    "             ||||+-- Automatically add <CR> to the last line
-    "             |||      when using :@r
-    "             |||+-- Searching continues at the end of the match
-    "             ||      at the cursor position
-    "             ||+-- A backslash has no special meaning in mappings
-    "             |+-- :write updates alternative file name
-    "             +-- :read updates alternative file name
-    set clipboard=unnamed " Share OS clipboard
-    set directory=$HOME/.vim/temp " Directory to place swap files in
+    set clipboard=unnamed " Share OS X clipboard
     set fileformats=unix,dos,mac " Support all three, in this order
-    "set hidden " You can change buffers without saving
-    " (XXX: #VIM/tpope warns the line below could break things)
-    set iskeyword+=_,$ ",@,%,# " None of these are word dividers
+    set hidden " You can change buffers without saving
     set modeline " Enable modelines
     set modelines=5 " Amount of lines to scan for modeline (top/bottom)
-    set mouse=a " a = Always, i = Insert mode only
-    "set whichwrap=b,s,~,[,]
-    "set whichwrap=b,s,h,l,<,>,~,[,] " Everything wraps
-    "              | | | | | | | | |
-    "              | | | | | | | | +-- "]" Insert and Replace
-    "              | | | | | | | +-- "[" Insert and Replace
-    "              | | | | | | +-- "~" Normal
-    "              | | | | | +-- <Right> Normal and Visual
-    "              | | | | +-- <Left> Normal and Visual
-    "              | | | +-- "l" Normal and Visual (not recommended)
-    "              | | +-- "h" Normal and Visual (not recommended)
-    "              | +-- <Space> Normal and Visual
-    "              +-- <BS> Normal and Visual
-    set wildmenu " Turn on command line completion wild style
-    " Ignore this list of file extensions
-    set wildignore=*.dll,*.o,*.obj,*.bak,*.exe,*.pyc,
-                    \*.jpg,*.gif,*.png
-    "set wildmode=list:longest " Turn on wild mode huge list
-" }
-" Vim UI {
-    " Bells off {
-    set noerrorbells
-    set visualbell
-    set t_vb=
-    if has('autocmd')
-        autocmd GUIEnter * set visualbell t_vb=
-    endif
-    " }
-    " Colorscheme desert {
-    if (&t_Co >= 256)
-        colorscheme desert256
-    else
-        colorscheme desert
-    endif
-    " }
+    set mouse=a " a = Always, i = Insert mode, c = Command line
+    " Time out on key codes but not mappings.
+    " Basically this makes terminal Vim work sanely.
+    set notimeout
+    set ttimeout
+    set ttimeoutlen=10
+    " Wildmenu completion {{{
+        set wildmenu
+
+        set wildignore+=.git,.hg,.svn                    " Version control
+        set wildignore+=*.aux,*.out,*.toc                " LaTeX intermediate files
+        set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg   " binary images
+        set wildignore+=*.o,*.obj,*.exe,*.dll,*.manifest " compiled object files
+        set wildignore+=*.spl                            " compiled spelling word lists
+        set wildignore+=*.sw?                            " Vim swap files
+        set wildignore+=*.DS_Store                       " OS X bullshit
+
+        set wildignore+=*.luac                           " Lua byte code
+
+        set wildignore+=migrations                       " Django migrations
+        set wildignore+=*.pyc                            " Python byte code
+
+        set wildignore+=*.orig                           " Merge resolution files
+
+        " Clojure/Leiningen
+        set wildignore+=classes
+        set wildignore+=lib
+    " }}}
+" }}}
+" Backup/Swap/Undo {{{
+    set backupdir=$HOME/.vim/tmp/backup//
+    set directory=$HOME/.vim/tmp/swap//
+    set undodir=$HOME/.vim/tmp/undo//
+    set backup
+    set swapfile
+    set undofile
+    set undoreload=10000
+" }}}
+" Vim UI {{{
+    " Bells {{{
+        set noerrorbells
+        set visualbell
+        set t_vb=
+        if has('autocmd')
+            autocmd GUIEnter * set visualbell t_vb=
+        endif
+    " }}}
+    " Colorscheme {{{
+        colorscheme badwolf
+        let g:badwolf_html_link_underline = 1
+        let g:Powerline_symbols = 'fancy'
+        match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$' " Highlight VCS conflict markers
+    " }}}
+    set colorcolumn=+1
     set cursorline " Highlight current line
-    set nohlsearch " Do not highlight searched for phrases
+    set fillchars=diff:⣿,vert:│
+    " Folding {{{
+        set foldenable " Turn on folding
+        set foldmethod=marker " Fold on the marker
+        set foldlevel=100 " Don't autofold anything (but I can still
+                        " fold manually)
+        set foldopen=block,hor,mark,percent,quickfix,tag " What movements
+                                                        " open folds
+        function! MyFoldText() " {{{
+            let line = getline(v:foldstart)
+
+            let nucolwidth = &fdc + &number * &numberwidth
+            let windowwidth = winwidth(0) - nucolwidth - 3
+            let foldedlinecount = v:foldend - v:foldstart
+
+            " expand tabs into spaces
+            let onetab = strpart('          ', 0, &tabstop)
+            let line = substitute(line, '\t', onetab, 'g')
+
+            let line = strpart(line, 0, windowwidth - 2 -len(foldedlinecount))
+            let fillcharcount = windowwidth - len(line) - len(foldedlinecount)
+            return line . '…' . repeat(" ",fillcharcount) . foldedlinecount . '…' . ' '
+        endfunction " }}}
+        set foldtext=MyFoldText()
+    " }}}
+    set hlsearch " Highlight search phrase
     set incsearch " Highlight *as you type* your search term
     set laststatus=2 " Always show the status line
     set lazyredraw " Do not redraw while running macros
-    set list " We do what to show tabs, to ensure we get them
-              " out of my files
-    set listchars=tab:>-,trail:- " Show tabs and trailing
+    set list " Show special characters
+    set listchars=tab:▸\ ,trail:⌴,eol:¬,extends:❯,precedes:❮
     set matchtime=1 " How many tenths of a second to blink
                      " matching brackets for
-    set number " Turn on line numbers
-    set numberwidth=5 " 99999 lines
+    set nonumber " Line numbers
+    set norelativenumber
+    set numberwidth=2
     set report=0 " Tell us when anything is changed via :...
-    set ruler " Always show current positions along the bottom
+    set ruler " Always lolz current positions along the bottom
     set scrolloff=5 " Keep lines (top/bottom) for scope
-    set shortmess=aOstT " Shortens messages to avoid
-                         " 'press a key' prompt
+    set shortmess=aOstT " Shortens messages to avoid 'press a key' prompt
+    set showbreak=↪
     set showcmd " Show the command being typed
     set showmatch " Show matching brackets
     set sidescroll=1 " Scroll by 'n' character(s)
     set sidescrolloff=20 " Keep 'n' lines at the size
+    set splitbelow " Put the new window below when splitting
+    set splitright
     set nostartofline " Leave my cursor where it was
     set statusline=%F%m%r%h%w[%L][%{&ff}]%y[%p%%][%04l,%04v]
     "              | | | | |  |   |      |  |     |    |
@@ -115,15 +142,16 @@
     "              | | +-- Readonly flag in square brackets
     "              | +-- Rodified flag in square brackets
     "              +-- Full path to file in the buffer
+    set synmaxcol=800 " Don't try to highlight lines longer than 800 characters
     set winminheight=0 " Allow zero height windows
-" }
-" Text Formatting/Layout {
-    "set completeopt= " Don't use a pop up menu for completions
+" }}}
+" Text Formatting/Layout {{{
 "    set expandtab " Create no real tabs
-    set formatoptions=rq " Automatically insert comment leader on return,
-                          " and let gq format comments
-    set ignorecase " Case insensitive by default
-    set infercase " Case inferred by default
+    set formatoptions-=tc
+    set formatoptions+=rnq " May be overridden by filetype plugins
+"    set gdefault " Default to global regex
+    set noignorecase
+    set noinfercase
     set nowrap " Wrap lines
     set shiftround " When at 3 spaces, and I hit > ... go to 4, not 5
     set smartcase " If there are caps, go case-sensitive
@@ -132,28 +160,186 @@
     set softtabstop=4 " When hitting tab or backspace, how many spaces
                        "should a tab be (see expandtab)
     set tabstop=4 " Width of real tabs
-" }
-" Folding {
-    set foldenable " Turn on folding
-    set foldmarker={,} " Fold C style code (only use this as default
-                        " if you use a high foldlevel)
-    set foldmethod=marker " Fold on the marker
-    set foldlevel=100 " Don't autofold anything (but I can still
-                       " fold manually)
-    set foldopen=block,hor,mark,percent,quickfix,tag " What movements
-                                                      " open folds
-    function! SimpleFoldText() " {
-        return getline(v:foldstart).' '
-    endfunction " }
-    set foldtext=SimpleFoldText() " Custom fold text function
-                                   " (cleaner than default)
-" }
-" Plugin Settings {
-    let b:match_ignorecase = 1 " Case is stupid
-    let perl_extended_vars = 1 " Highlight advanced perl vars
-                                " inside strings
-
-    " TagList settings {
+    set textwidth=80
+" }}}
+" Mappings {{{
+    " j/k always jumps one visual line {{{
+        nnoremap j gj
+        nnoremap k gk
+    " }}}
+    " Map Q to replay the macro recorded by qq {{{
+        nnoremap Q @q|
+    " }}}
+    " Search options: regular regexes, case insensitive {{{
+        nnoremap / /\v
+        vnoremap / /\v
+    " }}}
+    " Show buffers and let me pick {{{
+        nnoremap ,b :ls<CR>:buffer<Space>
+    " }}}
+    " Map Tab to Escape. Press Shift-Tab to insert a Tab. {{{
+        nnoremap <silent> <Tab> <Esc>:nohlsearch<bar>pclose<CR>|
+        vnoremap <Tab> <Esc><Nul>|
+        inoremap <Tab> <Esc>|
+        nnoremap <S-Tab> i<Tab><Esc><Right>|
+        vnoremap <S-Tab> >gv|
+        inoremap <S-Tab> <Tab>|
+    " }}}
+    " Delete/Backspace {{{
+        nnoremap <C-w> i<C-w><Esc>
+        nnoremap <C-d> "_dw|vnoremap <C-d> "_d|inoremap <C-d> <Delete>|cnoremap <C-d> <Delete>|
+        nnoremap <Delete> "_x|vnoremap <Delete> "_d|
+        nnoremap <Backspace> a<Left><Backspace><Right><Esc>|vnoremap <Backspace> "_d|
+        nmap <C-h> <Backspace> " XXX: nmap BAD idea?
+    " }}}
+    " Enter splits line {{{
+        nnoremap <CR> i<CR><Esc>|
+    " }}}
+    " Break undo chain (Tip #1054) {{{
+        inoremap <CR> <C-g>u<CR>|
+    " }}}
+    " Allow . to execute once for each line of a visual selection {{{
+        vnoremap . :normal .<CR>
+    " }}}
+    " Jump to line {{{
+        nnoremap - gg|xnoremap - gg|onoremap - gg|
+        nnoremap _ G|xnoremap _ G|onoremap _ G|
+    " }}}
+    " Insert Space {{{
+        nnoremap <Space> i<Space><Esc><Right>|
+        xnoremap <silent> <Space> :<C-u>let b:tmp_var=&sw\|set sw=1\|normal! gv><CR>:<C-u>let &sw=b:tmp_var\|normal! gv<CR>
+        xnoremap <silent> <S-Space> :<C-u>let b:tmp_var=&sw\|set sw=1\|normal! gv<<CR>:<C-u>let &sw=b:tmp_var\|normal! gv<CR>
+    " }}}
+    " Page up/down {{{
+        nnoremap <silent> <expr> <C-b> (winheight(0)-1) . "\<C-u>"
+        nnoremap <silent> <expr> <C-f> (winheight(0)-1) . "\<C-d>"
+    " }}}
+    " Clear search highlighting {{{
+"        noremap <silent> <Leader><Space> :noh<CR>:call clearmatches()<CR>
+    " }}}
+    " Cursor position jumplist {{{
+        nnoremap ( <C-o>|
+        nnoremap ) <C-i>|
+    " }}}
+    " Leader {{{
+        let mapleader = ","
+        let maplocalleader = "\\"
+    " }}}
+    " Front and center {{{
+        " Use :sus for suspending
+        nnoremap <C-z> zvzz
+        vnoremap <C-z> <Esc>zv`<ztgv
+    " }}}
+    " Paste with <Leader>p/P {{{
+        noremap <Leader>p :set paste<CR>"*p<CR>:set nopaste<CR>
+        noremap <Leader>P :set paste<CR>"*P<CR>:set nopaste<CR>
+    " }}}
+    " Emacs bindings for home/end {{{
+        cnoremap <C-a> <Home>
+        cnoremap <C-e> <End>
+        inoremap <C-a> <Esc>I
+        inoremap <C-e> <Esc>A
+    " }}}
+    " HTML tag closing {{{
+        inoremap <C-_> <Space><BS><Esc>:call InsertCloseTag()<CR>a
+    " }}}
+    " Source line/selection {{{
+        vnoremap <Leader>S y:execute @@<CR>:echo 'Sourced selection.'<CR>
+        nnoremap <Leader>S ^vg_y:execute @@<CR>:echo 'Sourced line.'<CR>
+    " }}}
+    " Toggle [i]nvisible characters {{{
+        nnoremap <Leader>i :set list!<CR>
+    " }}}
+    " (OS X) Drag lines {{{
+    " <Opt-j> and <Opt-k> to drag lines in any mode
+        noremap ∆ :m+<CR>
+        noremap ˚ :m-2<CR>
+        inoremap ∆ <Esc>:m+<CR>
+        inoremap ˚ <Esc>:m-2<CR>
+        vnoremap ∆ :m'>+<CR>gv
+        vnoremap ˚ :m-2<CR>gv
+    " }}}
+    " Quick editing {{{
+        nnoremap <Leader>ev :e $MYVIMRC<CR>
+        nnoremap <Leader>ec :e $HOME/.vim/plugin/colemak.vim<CR>
+        nnoremap <Leader>et :e $HOME/.tmux.conf<CR>
+    " }}}
+    " Toggle relative line numbers {{{
+        nnoremap <Leader>n :setlocal relativenumber!<CR>
+    " }}}
+    " Don't move on * {{{
+        nnoremap * *<C-o>
+    " }}}
+    " Keep search matches in the middle of the window {{{
+        nnoremap n nzzzv
+        nnoremap N Nzzzv
+    " }}}
+    " Stay in middle while jumping around {{{
+        nnoremap g; g;zz
+        nnoremap g, g,zz
+        nnoremap <C-o> <C-o>zz
+    " }}}
+    " Reselect pasted text {{{
+        nnoremap <leader>v V`]
+    " }}}
+    " Write with Sudo {{{
+        cnoreabbrev <expr> w!!
+                        \((getcmdtype() == ':' && getcmdline() == 'w!!')
+                        \?('!sudo tee % >/dev/null'):('w!!'))
+    " }}}
+" }}}
+" Commands {{{
+    " Write with Sudo {{{
+"        command! W w !sudo tee % > /dev/null
+    " }}}
+" }}}
+" Autocommands {{{
+    " Line return {{{
+        " Make sure Vim returns to the same line when you reopen a file.
+        augroup line_return
+            au!
+            au BufReadPost *
+                \ if line("'\"") > 0 && line("'\"") <= line("$") |
+                \     execute 'normal! g`"zvzz' |
+                \ endif
+        augroup END
+    " }}}
+    " Trailing whitespace {{{
+    " Only shown when not in insert mode so I don't go insane.
+        augroup trailing
+            au!
+            au InsertEnter * :set listchars-=trail:⌴
+            au InsertLeave * :set listchars+=trail:⌴
+        augroup END
+    " }}}
+    " Save {{{
+"    augroup its2012justfuckingsavealready
+"        au!
+"        au InsertLeave * :silent! wa
+"        au CursorHold * :silent! wa
+"        au CursorHoldI * :silent! wa
+"    augroup END
+    " }}}
+    " Save when losing focus {{{
+"        au FocusLost * :silent! wall
+    " }}}
+    " Resize splits when the window is resized {{{
+        au VimResized * :wincmd =
+    " }}}
+    " Only show cursorline in the current window and in normal mode {{{
+        augroup cline
+            au!
+            au WinLeave * set nocursorline
+            au WinEnter * set cursorline
+            au InsertEnter * set nocursorline
+            au InsertLeave * set cursorline
+        augroup END
+    " }}}
+" }}}
+" Plugin Settings {{{
+"    let b:match_ignorecase = 1
+    let perl_extended_vars = 1 " Highlight advanced Perl vars inside strings
+    " TagList settings {{{
         let Tlist_Auto_Open = 0 " Let the tag list open automagically
         let Tlist_Compact_Format = 1 " Show small menu
         let Tlist_Ctags_Cmd = 'ctags' " Location of ctags
@@ -166,79 +352,229 @@
                                         " of the screen
         let Tlist_WinWidth = 40 " 40 cols wide, so i can (almost always)
                                  " read my functions
-        " Language specifics {
+        " Language specifics {{{
             " Just functions and classes please
-            let tlist_aspjscript_settings = 'asp;f:function;c:class' 
+            let tlist_aspjscript_settings = 'asp;f:function;c:class'
             " Just functions and subs please
-            let tlist_aspvbs_settings = 'asp;f:function;s:sub' 
+            let tlist_aspvbs_settings = 'asp;f:function;s:sub'
             " Don't show variables in freaking php
-            let tlist_php_settings = 'php;c:class;d:constant;f:function' 
+            let tlist_php_settings = 'php;c:class;d:constant;f:function'
             " Just functions and classes please
-            let tlist_vb_settings = 'asp;f:function;c:class' 
-        " }
-    " }
-" }
-" Mappings {
-    " Map Escape to Tab {
-        " The Tab key is mapped to Escape. Press Shift-Tab to insert a Tab.
-        " To minimize Tab use, you can use '<', '>' and ':set autoindent'
-" Set in colemak.vim
-"        nnoremap <silent> <Tab> <Esc>:nohlsearch<bar>pclose<CR>|
-"        vnoremap <Tab> <Esc><Nul>| " <Nul> added to fix select mode problem
-"        inoremap <Tab> <Esc>|
-"        nnoremap <S-Tab> i<Tab><Esc><Right>
-"        vnoremap <S-Tab> >gv|
-"        inoremap <S-Tab> <Tab>|
-    " }
-    " Map b to buffer list {
-        nnoremap b :buffers<Enter>:buffer<Space>
-    " }
-" }
-" Autocommands {
-    " Ruby {
-        " Ruby standard 2 spaces, always
-        au BufRead,BufNewFile *.rb,*.rhtml set shiftwidth=2
-        au BufRead,BufNewFile *.rb,*.rhtml set softtabstop=2
-    " }
-    " Notes {
-        " I consider .notes files special, and handle them differently, I
-        " should probably put this in another file
-"        au BufRead,BufNewFile *.notes set foldlevel=2
-"        au BufRead,BufNewFile *.notes set foldmethod=indent
-"        au BufRead,BufNewFile *.notes set foldtext=foldtext()
-"        au BufRead,BufNewFile *.notes set listchars=tab:\ \
-"        au BufRead,BufNewFile *.notes set noexpandtab
-"        au BufRead,BufNewFile *.notes set shiftwidth=8
-"        au BufRead,BufNewFile *.notes set softtabstop=8
-"        au BufRead,BufNewFile *.notes set tabstop=8
-"        au BufRead,BufNewFile *.notes set syntax=notes
-"        au BufRead,BufNewFile *.notes set nocursorcolumn
-"        au BufRead,BufNewFile *.notes set nocursorline
-"        au BufRead,BufNewFile *.notes set spell
-    " }
-" }
-" GUI Settings {
+            let tlist_vb_settings = 'asp;f:function;c:class'
+        " }}}
+    " }}}
+" }}}
+" Open help in a new tab {{{
+    cnoreabbr <expr> h    (getcmdtype() . getcmdline() != ':h'    ? 'h'    : 'tab help')
+    cnoreabbr <expr> he   (getcmdtype() . getcmdline() != ':he'   ? 'he'   : 'tab help')
+    cnoreabbr <expr> hel  (getcmdtype() . getcmdline() != ':hel'  ? 'hel'  : 'tab help')
+    cnoreabbr <expr> help (getcmdtype() . getcmdline() != ':help' ? 'help' : 'tab help')
+" }}}
+" Help file navigation {{{
+    " Use < and > to navigate in the help file
+    au FileType help nnoremap <buffer> < <C-t>|
+    au FileType help nnoremap <buffer> > <C-]>|
+    au FileType help nnoremap <buffer> <CR> <C-]>|
+    au FileType help nnoremap <buffer> <Backspace> <C-t>|
+    au FileType help nnoremap <buffer> <silent> <expr> <Space> (winheight(0)-1) . "\<C-d>0"|
+    au FileType help nnoremap <buffer> <silent> <expr> <S-Space> (winheight(0)-1) . "\<C-u>0"|
+" }}}
+" GUI Settings {{{
 if has("gui_running")
-    " Basics {
+    " Basics {{{
         set columns=120
-        set guifont=Terminus:h12
+        set guifont=Terminus:h14
         set guioptions=ce
         "              ||
         "              |+-- Use simple dialogs rather than pop-ups
         "              +-- Use GUI tabs, not console style tabs
         set lines=26
-        set linespace=0 " GUI: Don't insert any extra pixel lines
-    " }
-    " General {
-        " set autochdir " This might not be necessary
+"        set linespace=0 " GUI: Don't insert any extra pixel lines
+    " }}}
+    " General {{{
         set mousehide " Hide the mouse cursor when typing
-    " }
-    " Style {
-        hi clear CursorLine
-        hi CursorLine gui=underline guisp=yellow
-    " }
+    " }}}
+    " Mappings {{{
+        " Tabs {{{
+            noremap <silent> <C-Tab> :tabnext<CR>|
+            noremap <silent> <C-S-Tab> :tabprev<CR>|
+        " }}}
+    " }}}
 endif
-" }
+" }}}
+" Functions {{{
+    " If you are using a console version of Vim, or dealing
+    " with a file that changes externally (e.g. a web server log)
+    " then Vim does not always check to see if the file has been changed.
+    " The GUI version of Vim will check more often (for example on Focus change),
+    " and prompt you if you want to reload the file.
+    "
+    " There can be cases where you can be working away, and Vim does not
+    " realize the file has changed. This command will force Vim to check
+    " more often.
+    "
+    " Calling this command sets up autocommands that check to see if the
+    " current buffer has been modified outside of vim (using checktime)
+    " and, if it has, reload it for you.
+    "
+    " This check is done whenever any of the following events are triggered:
+    " * BufEnter
+    " * CursorMoved
+    " * CursorMovedI
+    " * CursorHold
+    " * CursorHoldI
+    "
+    " In other words, this check occurs whenever you enter a buffer, move the cursor,
+    " or just wait without doing anything for 'updatetime' milliseconds.
+    "
+    " Normally it will ask you if you want to load the file, even if you haven't made
+    " any changes in vim. This can get annoying, however, if you frequently need to reload
+    " the file, so if you would rather have it to reload the buffer *without*
+    " prompting you, add a bang (!) after the command (WatchForChanges!).
+    " This will set the autoread option for that buffer in addition to setting up the
+    " autocommands.
+    "
+    " If you want to turn *off* watching for the buffer, just call the command again while
+    " in the same buffer. Each time you call the command it will toggle between on and off.
+    "
+    " WatchForChanges sets autocommands that are triggered while in *any* buffer.
+    " If you want vim to only check for changes to that buffer while editing the buffer
+    " that is being watched, use WatchForChangesWhileInThisBuffer instead.
+    "
+    command! -bang WatchForChanges                  :call WatchForChanges(@%,  {'toggle': 1, 'autoread': <bang>0})
+    command! -bang WatchForChangesWhileInThisBuffer :call WatchForChanges(@%,  {'toggle': 1, 'autoread': <bang>0, 'while_in_this_buffer_only': 1})
+    command! -bang WatchForChangesAllFile           :call WatchForChanges('*', {'toggle': 1, 'autoread': <bang>0})
+
+    " WatchForChanges function
+    "
+    " This is used by the WatchForChanges* commands, but it can also be
+    " useful to call this from scripts. For example, if your script executes a
+    " long-running process, you can have your script run that long-running process
+    " in the background so that you can continue editing other files, redirects its
+    " output to a file, and open the file in another buffer that keeps reloading itself
+    " as more output from the long-running command becomes available.
+    "
+    " Arguments:
+    " * bufname: The name of the buffer/file to watch for changes.
+    "     Use '*' to watch all files.
+    " * options (optional): A Dict object with any of the following keys:
+    "   * autoread: If set to 1, causes autoread option to be turned on for the buffer in
+    "     addition to setting up the autocommands.
+    "   * toggle: If set to 1, causes this behavior to toggle between on and off.
+    "     Mostly useful for mappings and commands. In scripts, you probably want to
+    "     explicitly enable or disable it.
+    "   * disable: If set to 1, turns off this behavior (removes the autocommand group).
+    "   * while_in_this_buffer_only: If set to 0 (default), the events will be triggered no matter which
+    "     buffer you are editing. (Only the specified buffer will be checked for changes,
+    "     though, still.) If set to 1, the events will only be triggered while
+    "     editing the specified buffer.
+    "   * more_events: If set to 1 (the default), creates autocommands for the events
+    "     listed above. Set to 0 to not create autocommands for CursorMoved, CursorMovedI,
+    "     (Presumably, having too much going on for those events could slow things down,
+    "     since they are triggered so frequently...)
+    function! WatchForChanges(bufname, ...)
+        " Figure out which options are in effect
+        if a:bufname == '*'
+            let id = 'WatchForChanges'.'AnyBuffer'
+            " If you try to do checktime *, you'll get E93: More than one match for * is given
+            let bufspec = ''
+        else
+            if bufnr(a:bufname) == -1
+            echoerr "Buffer " . a:bufname . " doesn't exist"
+            return
+            end
+            let id = 'WatchForChanges'.bufnr(a:bufname)
+            let bufspec = a:bufname
+        end
+
+        if len(a:000) == 0
+            let options = {}
+        else
+            if type(a:1) == type({})
+            let options = a:1
+            else
+            echoerr "Argument must be a Dict"
+            end
+        end
+        let autoread    = has_key(options, 'autoread')    ? options['autoread']    : 0
+        let toggle      = has_key(options, 'toggle')      ? options['toggle']      : 0
+        let disable     = has_key(options, 'disable')     ? options['disable']     : 0
+        let more_events = has_key(options, 'more_events') ? options['more_events'] : 1
+        let while_in_this_buffer_only = has_key(options, 'while_in_this_buffer_only') ? options['while_in_this_buffer_only'] : 0
+
+        if while_in_this_buffer_only
+            let event_bufspec = a:bufname
+        else
+            let event_bufspec = '*'
+        end
+
+        let reg_saved = @"
+        "let autoread_saved = &autoread
+        let msg = "\n"
+
+        " Check to see if the autocommand already exists
+        redir @"
+            silent! exec 'au '.id
+        redir END
+        let l:defined = (@" !~ 'E216: No such group or event:')
+
+        " If not yet defined...
+        if !l:defined
+            if l:autoread
+            let msg = msg . 'Autoread enabled - '
+            if a:bufname == '*'
+                set autoread
+            else
+                setlocal autoread
+            end
+            end
+            silent! exec 'augroup '.id
+            if a:bufname != '*'
+                "exec "au BufDelete    ".a:bufname . " :silent! au! ".id . " | silent! augroup! ".id
+                "exec "au BufDelete    ".a:bufname . " :echomsg 'Removing autocommands for ".id."' | au! ".id . " | augroup! ".id
+                exec "au BufDelete    ".a:bufname . " execute 'au! ".id."' | execute 'augroup! ".id."'"
+            end
+                exec "au BufEnter     ".event_bufspec . " :checktime ".bufspec
+                exec "au CursorHold   ".event_bufspec . " :checktime ".bufspec
+                exec "au CursorHoldI  ".event_bufspec . " :checktime ".bufspec
+
+            " The following events might slow things down so we provide a way to disable them...
+            " vim docs warn:
+            "   Careful: Don't do anything that the user does
+            "   not expect or that is slow.
+            if more_events
+                exec "au CursorMoved  ".event_bufspec . " :checktime ".bufspec
+                exec "au CursorMovedI ".event_bufspec . " :checktime ".bufspec
+            end
+            augroup END
+            let msg = msg . 'Now watching ' . bufspec . ' for external updates...'
+        end
+
+        " If they want to disable it, or it is defined and they want to toggle it,
+        if l:disable || (l:toggle && l:defined)
+            if l:autoread
+            let msg = msg . 'Autoread disabled - '
+            if a:bufname == '*'
+                set noautoread
+            else
+                setlocal noautoread
+            end
+            end
+            " Using an autogroup allows us to remove it easily with the following
+            " command. If we do not use an autogroup, we cannot remove this
+            " single :checktime command
+            " augroup! checkforupdates
+            silent! exec 'au! '.id
+            silent! exec 'augroup! '.id
+            let msg = msg . 'No longer watching ' . bufspec . ' for external updates.'
+        elseif l:defined
+            let msg = msg . 'Already watching ' . bufspec . ' for external updates'
+        end
+
+        echo msg
+        let @"=reg_saved
+    endfunction
+" }}}
 " Pathogen {{{
     call pathogen#infect()
     call pathogen#helptags()
