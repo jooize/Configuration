@@ -242,3 +242,8 @@ endif
 " Plugins {
     source $HOME/.vim/plugin/colemak.vim
 " }
+" Pathogen {{{
+    call pathogen#infect()
+    call pathogen#helptags()
+" }}}
+
