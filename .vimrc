@@ -6,7 +6,6 @@
     set nocompatible " Explicitly get out of vi-compatible mode
     set noexrc " Don't use local version of .(g)vimrc, .exrc
     set background=dark
-    set shell=/bin/zsh
     if has("gui_running") " Necessary here for 256 color theme to load
         set t_Co=256 " Force 256 colors for GUI Vim (e.g. MacVim)
     endif
