@@ -225,7 +225,7 @@
     " }}}
     " Leader {{{
         let mapleader = ","
-        let maplocalleader = "\\"
+        let maplocalleader = ";"
     " }}}
     " Front and center {{{
         " Use :sus for suspending
