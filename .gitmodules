@@ -16,3 +16,6 @@
 [submodule ".vim/bundle/rainbow_parentheses"]
 	path = .vim/bundle/rainbow_parentheses
 	url = git://github.com/kshenoy/vim-rainbow_parentheses.git
+[submodule ".vim/bundle/colemak-key-mappings"]
+	path = .vim/bundle/colemak-key-mappings
+	url = git@github.com:jooize/vim-colemak-key-mappings.git
