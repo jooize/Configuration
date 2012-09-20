@@ -216,6 +216,9 @@
     " Clear search highlighting {{{
 "        noremap <silent> <Leader><Space> :noh<CR>:call clearmatches()<CR>
     " }}}
+    " Strip trailing whitespace in whole file {{{
+        nnoremap <Leader>W :%s/\s\+$//<cr>:let @/=''<CR>
+    " }}}
     " Cursor position jumplist {{{
         nnoremap ( <C-o>|
         nnoremap ) <C-i>|
