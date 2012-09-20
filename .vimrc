@@ -263,7 +263,7 @@
     " }}}
     " Quick editing {{{
         nnoremap <Leader>ev :e $MYVIMRC<CR>
-        nnoremap <Leader>ec :e $HOME/.vim/plugin/colemak.vim<CR>
+        nnoremap <Leader>ec :e $HOME/.vim/bundle/colemak-key-mappings/plugin/colemak-key-mappings.vim<CR>
         nnoremap <Leader>et :e $HOME/.tmux.conf<CR>
     " }}}
     " Toggle relative line numbers {{{
