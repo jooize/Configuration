@@ -19,3 +19,6 @@
 [submodule ".vim/bundle/colemak-key-mappings"]
 	path = .vim/bundle/colemak-key-mappings
 	url = git@github.com:jooize/vim-colemak-key-mappings.git
+[submodule ".vim/bundle/nerdcommenter"]
+	path = .vim/bundle/nerdcommenter
+	url = git://github.com/scrooloose/nerdcommenter.git
