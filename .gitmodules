@@ -25,3 +25,6 @@
 [submodule ".vim/bundle/vimpager"]
 	path = .vim/bundle/vimpager
 	url = git://github.com/rkitover/vimpager.git
+[submodule ".vim/bundle/ack"]
+	path = .vim/bundle/ack
+	url = git://github.com/mileszs/ack.vim.git
