@@ -3,9 +3,8 @@
 "   Original: http://vi-improved.org/vimrc.php
 " }}}
 " Basics {{{
-    set nocompatible " Explicitly get out of vi-compatible mode
+    set nocompatible " Explicitly get out of Vi-compatible mode
     set noexrc " Don't use local version of .(g)vimrc, .exrc
-    set background=dark
     if has("gui_running") " Necessary here for 256 color theme to load
         set t_Co=256 " Force 256 colors for GUI Vim (e.g. MacVim)
     endif
@@ -32,6 +31,7 @@
     set modeline " Enable modelines
     set modelines=5 " Amount of lines to scan for modeline (top/bottom)
     set mouse=a " a = Always, i = Insert mode, c = Command line
+    set ttymouse=xterm2 " Make mouse drag work in Tmux
     " Time out on key codes but not mappings.
     " Basically this makes terminal Vim work sanely.
     set notimeout
@@ -77,12 +77,16 @@
             autocmd GUIEnter * set visualbell t_vb=
         endif
     " }}}
-    " Colorscheme {{{
+    " Colorscheme
+    if (&t_Co >= 256)
+        colorscheme desert256
         colorscheme badwolf
-        let g:badwolf_html_link_underline = 1
-        let g:Powerline_symbols = 'fancy'
-        match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$' " Highlight VCS conflict markers
-    " }}}
+        colorscheme solarized
+    elseif (&t_Co >= 8)
+        colorscheme desert
+    endif
+
+    set background=dark
     set colorcolumn=+1
     set cursorline " Highlight current line
     set fillchars=diff:⣿,vert:│
@@ -115,17 +119,17 @@
     set laststatus=2 " Always show the status line
     set lazyredraw " Do not redraw while running macros
     set list " Show special characters
-    set listchars=tab:▸\ ,trail:⌴,eol:¬,extends:❯,precedes:❮
-    set matchtime=1 " How many tenths of a second to blink
-                     " matching brackets for
+    "set listchars=tab:▸\ ,trail:⌴,eol:¬,extends:❯,precedes:❮ " Works in OS X
+    set listchars=tab:»·,trail:·,eol:¬,extends:>,precedes:< " Works in Windows
+    set matchtime=1 " How many tenths of a second to blink matching brackets for
     set nonumber " Line numbers
     set norelativenumber
     set numberwidth=2
     set report=0 " Tell us when anything is changed via :...
     set ruler " Always lolz current positions along the bottom
     set scrolloff=5 " Keep lines (top/bottom) for scope
-    set shortmess=aOstT " Shortens messages to avoid 'press a key' prompt
-    set showbreak=↪
+    set shortmess=aOstT " Shorten messages to avoid 'press a key' prompt
+    "set showbreak=↪
     set showcmd " Show the command being typed
     set showmatch " Show matching brackets
     set sidescroll=1 " Scroll by 'n' character(s)
@@ -255,6 +259,8 @@
     " HTML tag closing {{{
         inoremap <C-_> <Space><BS><Esc>:call InsertCloseTag()<CR>a
     " }}}
+    " Source $MYVIMRC {{{
+        nnoremap <Leader>s :source $MYVIMRC<CR>:echo 'Reloaded $MYVIMRC.'<CR>
     " Source line/selection {{{
         vnoremap <Leader>S y:execute @@<CR>:echo 'Sourced selection.'<CR>
         nnoremap <Leader>S ^vg_y:execute @@<CR>:echo 'Sourced line.'<CR>
@@ -296,6 +302,12 @@
         nnoremap g, g,zz
         nnoremap <C-o> <C-o>zz
     " }}}
+<<<<<<< HEAD
+=======
+    " Reselect pasted text {{{
+        nnoremap <Leader>v V`]
+    " }}}
+>>>>>>> Change .vimrc (several changes)
     " Write with Sudo {{{
         cnoreabbrev <expr> w!!
                         \((getcmdtype() == ':' && getcmdline() == 'w!!')
@@ -322,8 +334,10 @@
     " Only shown when not in insert mode so I don't go insane.
         augroup trailing
             au!
-            au InsertEnter * :set listchars-=trail:⌴
-            au InsertLeave * :set listchars+=trail:⌴
+            "au InsertEnter * :set listchars-=trail:⌴
+            au InsertEnter * :set listchars-=trail:·
+            "au InsertLeave * :set listchars+=trail:⌴
+            au InsertLeave * :set listchars+=trail:·
         augroup END
     " }}}
     " Save {{{
@@ -620,3 +634,11 @@ endif
     source $HOME/.vim/bundle/colemak-key-mappings/plugin/colemak-key-mappings.vim
 " }}}
 
+" Move this to a sensible place!
+let g:EclimEclipseHome = '/usr/local/lib/eclipse-devel'
+let g:EclimHome = '/usr/local/lib/eclipse-devel/plugins/org.eclim_2.2.1'
+let g:badwolf_html_link_underline = 1
+let g:Powerline_colorscheme='skwp'
+let g:Powerline_symbols = 'fancy'
+let g:solarized_visibility = 'low'
+match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$' " Highlight VCS conflict markers
