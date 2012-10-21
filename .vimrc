@@ -302,12 +302,9 @@
         nnoremap g, g,zz
         nnoremap <C-o> <C-o>zz
     " }}}
-<<<<<<< HEAD
-=======
     " Reselect pasted text {{{
         nnoremap <Leader>v V`]
     " }}}
->>>>>>> Change .vimrc (several changes)
     " Write with Sudo {{{
         cnoreabbrev <expr> w!!
                         \((getcmdtype() == ':' && getcmdline() == 'w!!')
