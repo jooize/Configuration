@@ -15,6 +15,7 @@
 " }}}
 " Pathogen {{{
     let g:pathogen_disabled = []
+    call add(g:pathogen_disabled, 'colemak') " Disable Colemak
     call add(g:pathogen_disabled, 'fugitive') " Issue with mappings, fix later
     call pathogen#infect()
     call pathogen#helptags()
@@ -628,7 +629,7 @@ endif
     " }}}
 " }}}
 " Colemak key mappings (source last) {{{
-    source $HOME/.vim/bundle/colemak-key-mappings/plugin/colemak-key-mappings.vim
+    "source $HOME/.vim/bundle/colemak-key-mappings/plugin/colemak-key-mappings.vim
 " }}}
 
 " Move this to a sensible place!
