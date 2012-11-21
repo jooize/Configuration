@@ -641,3 +641,9 @@ let g:Powerline_colorscheme='skwp'
 let g:Powerline_symbols = 'fancy'
 let g:solarized_visibility = 'low'
 match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$' " Highlight VCS conflict markers
+
+if !exists(":DiffOrig")
+    command DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis
+                   \ | wincmd p | diffthis
+endif
+
