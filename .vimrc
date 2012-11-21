@@ -26,7 +26,7 @@
     set backspace=indent,eol,start " Make backspace delete linebreaks
 "    set clipboard=unnamed " Share OS X clipboard
     set fileformats=unix,dos,mac " Support all three, in this order
-    set hidden " You can change buffers without saving
+    set hidden " You can switch buffers without saving
     let mapleader = ","
     let maplocalleader = ";"
     set modeline " Enable modelines
