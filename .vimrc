@@ -2,23 +2,16 @@
 "   vim: set foldmarker={{{,}}} expandtab:
 "   Original: http://vi-improved.org/vimrc.php
 " }}}
+" Vundle {{{
+    source $HOME/.vim/bundles.vim
+" }}}
 " Basics {{{
-    set nocompatible " Explicitly get out of Vi-compatible mode
-    set noexrc " Don't use local version of .(g)vimrc, .exrc
-    if has("gui_running") " Necessary here for 256 color theme to load
-        set t_Co=256 " Force 256 colors for GUI Vim (e.g. MacVim)
-    endif
+    set nocompatible " Explicitly get out of Vi compatible mode
+    set noexrc " What does this do exactly?
     if has('syntax') && (&t_Co > 2)
         syntax on " Syntax highlighting on
     endif
     filetype plugin indent on " Load filetype plugins/indent settings
-" }}}
-" Pathogen {{{
-    let g:pathogen_disabled = []
-    "call add(g:pathogen_disabled, 'colemak') " Disable Colemak
-    call add(g:pathogen_disabled, 'fugitive') " Issue with mappings, fix later
-    call pathogen#infect()
-    call pathogen#helptags()
 " }}}
 " General {{{
 "    set autochdir " Always switch to the current file directory
@@ -405,29 +398,6 @@
     au FileType help nnoremap <buffer> <silent> <expr> <Space> (winheight(0)-1) . "\<C-d>0"|
     au FileType help nnoremap <buffer> <silent> <expr> <S-Space> (winheight(0)-1) . "\<C-u>0"|
 " }}}
-" GUI Settings {{{
-if has("gui_running")
-    " Basics {{{
-        set columns=120
-        set guifont=Terminus:h14
-        set guioptions=ce
-        "              ||
-        "              |+-- Use simple dialogs rather than pop-ups
-        "              +-- Use GUI tabs, not console style tabs
-        set lines=26
-"        set linespace=0 " GUI: Don't insert any extra pixel lines
-    " }}}
-    " General {{{
-        set mousehide " Hide the mouse cursor when typing
-    " }}}
-    " Mappings {{{
-        " Tabs {{{
-            noremap <silent> <C-Tab> :tabnext<CR>|
-            noremap <silent> <C-S-Tab> :tabprev<CR>|
-        " }}}
-    " }}}
-endif
-" }}}
 " Functions {{{
     " Visual Selection {{{
         function! CmdLine(str)
@@ -627,10 +597,6 @@ endif
             let @"=reg_saved
         endfunction
     " }}}
-" }}}
-
-" Colemak key mappings (source last) {{{
-    source $HOME/.vim/bundle/colemak/plugin/colemak-key-mappings.vim
 " }}}
 
 " Move this to a sensible place!
