@@ -1,6 +1,14 @@
 # Hack to ensure locale
 export LC_ALL=en_US.UTF-8
 
+# Workaround for Tmux race condition, http://blog.sanctum.geek.nz/terminal-colour-tolerance/
+case "$CONTAINING_TERM" in
+    *256color)
+        TERM=screen-256color
+        unset CONTAINING_TERM
+        ;;
+esac
+
 # Path to your oh-my-zsh configuration.
 ZSH=$HOME/.oh-my-zsh
 
