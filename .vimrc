@@ -1,6 +1,5 @@
-" Modeline and Notes {{{
+" Modeline {{{
 "   vim: set foldmarker={{{,}}} expandtab:
-"   Original: http://vi-improved.org/vimrc.php
 " }}}
 " Vundle {{{
     source $HOME/.vim/bundles.vim
@@ -14,10 +13,11 @@
     filetype plugin indent on " Load filetype plugins/indent settings
 " }}}
 " General {{{
-"    set autochdir " Always switch to the current file directory
-"    set autoread " http://vim.wikia.com/wiki/Have_Vim_check_automatically_if_the_file_has_changed_externally
+    "set autochdir " Always switch to the current file directory
+    "set autoread " Don't enable, use WatchForChanges() -- http://vim.wikia.com/wiki/Have_Vim_check_automatically_if_the_file_has_changed_externally
+    "set autowriteall " Recommended to enable on demand
     set backspace=indent,eol,start " Make backspace delete linebreaks
-"    set clipboard=unnamed " Share OS X clipboard
+    "set clipboard=unnamed " Share OS X clipboard
     set fileformats=unix,dos,mac " Support all three, in this order
     set hidden " You can switch buffers without saving
     let mapleader = ","
@@ -26,11 +26,11 @@
     set modelines=5 " Amount of lines to scan for modeline (top/bottom)
     set mouse=a " a = Always, i = Insert mode, c = Command line
     set ttymouse=xterm2 " Make mouse drag work in Tmux
-    " Time out on key codes but not mappings.
-    " Basically this makes terminal Vim work sanely.
-    set notimeout
-    set ttimeout
-    set ttimeoutlen=10
+    " Time out on key codes but not mappings. Basically this makes terminal Vim work sanely
+        set notimeout
+        set ttimeout
+        set ttimeoutlen=10
+
     " Wildmenu completion {{{
         set wildmenu
 
@@ -63,34 +63,32 @@
     set undoreload=10000
 " }}}
 " Vim UI {{{
-    " Bells {{{
+    " Bells
         set noerrorbells
         set visualbell
         set t_vb=
-        if has('autocmd')
-            autocmd GUIEnter * set visualbell t_vb=
-        endif
-    " }}}
+
+    set background=dark
+
     " Colorscheme
     if (&t_Co >= 256)
-        colorscheme desert256
+        "colorscheme desert256
+
         colorscheme badwolf
-        colorscheme solarized
+
+        let g:solarized_visibility = 'low'
+        "colorscheme solarized
     elseif (&t_Co >= 8)
         colorscheme desert
     endif
 
-    set background=dark
     set colorcolumn=+1
     set cursorline " Highlight current line
-    set fillchars=diff:⣿,vert:│
-    " Folding {{{
+    " Folding
         set foldenable " Turn on folding
         set foldmethod=marker " Fold on the marker
-        set foldlevel=100 " Don't autofold anything (but I can still
-                        " fold manually)
-        set foldopen=block,hor,mark,percent,quickfix,tag " What movements
-                                                        " open folds
+        set foldlevel=1 " Don't autofold anything (but I can still fold manually)
+        set foldopen=block,hor,mark,percent,quickfix,tag " What movements open folds
         function! MyFoldText() " {{{
             let line = getline(v:foldstart)
 
@@ -98,7 +96,7 @@
             let windowwidth = winwidth(0) - nucolwidth - 3
             let foldedlinecount = v:foldend - v:foldstart
 
-            " expand tabs into spaces
+            " Expand tabs into spaces
             let onetab = strpart('          ', 0, &tabstop)
             let line = substitute(line, '\t', onetab, 'g')
 
@@ -107,23 +105,26 @@
             return line . '…' . repeat(" ",fillcharcount) . foldedlinecount . '…' . ' '
         endfunction " }}}
         set foldtext=MyFoldText()
-    " }}}
+
     set hlsearch " Highlight search phrase
     set incsearch " Highlight *as you type* your search term
     set laststatus=2 " Always show the status line
     set lazyredraw " Do not redraw while running macros
     set list " Show special characters
-    "set listchars=tab:▸\ ,trail:⌴,eol:¬,extends:❯,precedes:❮ " Works in OS X
-    set listchars=tab:»·,trail:·,eol:¬,extends:>,precedes:< " Works in Windows
+    if has("multi_byte_encoding")
+        set fillchars=diff:⣿,vert:│
+        "set listchars=tab:▸\ ,trail:⌴,eol:¬,extends:❯,precedes:❮ " Works in OS X
+        set listchars=tab:»·,trail:·,extends:>,precedes:< " Works in Windows and OS X
+        set showbreak=↪
+    endif
     set matchtime=1 " How many tenths of a second to blink matching brackets for
     set nonumber " Line numbers
-    set norelativenumber
+    set norelativenumber " Line numbers relative to current line
     set numberwidth=2
     set report=0 " Tell us when anything is changed via :...
-    set ruler " Always lolz current positions along the bottom
+    set ruler " Show current positions along the bottom
     set scrolloff=5 " Keep lines (top/bottom) for scope
     set shortmess=aOstT " Shorten messages to avoid 'press a key' prompt
-    "set showbreak=↪
     set showcmd " Show the command being typed
     set showmatch " Show matching brackets
     set sidescroll=1 " Scroll by 'n' character(s)
@@ -133,12 +134,10 @@
     set nostartofline " Leave my cursor where it was
     set statusline=%F%m%r%h%w[%L][%{&ff}]%y[%p%%][%04l,%04v]
     "              | | | | |  |   |      |  |     |    |
-    "              | | | | |  |   |      |  |     |    + Current
-    "              | | | | |  |   |      |  |     |       column
+    "              | | | | |  |   |      |  |     |    + Current column
     "              | | | | |  |   |      |  |     +-- Current line
     "              | | | | |  |   |      |  +-- Current % into file
-    "              | | | | |  |   |      +-- Current syntax in
-    "              | | | | |  |   |           square brackets
+    "              | | | | |  |   |      +-- Current syntax in square brackets
     "              | | | | |  |   +-- Current fileformat
     "              | | | | |  +-- Number of lines
     "              | | | | +-- Preview flag in square brackets
@@ -146,39 +145,38 @@
     "              | | +-- Readonly flag in square brackets
     "              | +-- Rodified flag in square brackets
     "              +-- Full path to file in the buffer
-    set synmaxcol=800 " Don't try to highlight lines longer than 800 characters
+    set synmaxcol=3000 " Stop highlighting lines beyond this length
     set winminheight=0 " Allow zero height windows
+    match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$' " Highlight VCS conflict markers
 " }}}
 " Text Formatting/Layout {{{
-"    set expandtab " Create no real tabs
+    "set expandtab " Create no real tabs
     set formatoptions-=tc
     set formatoptions+=rnq " May be overridden by filetype plugins
-"    set gdefault " Default to global regex
-    set noignorecase
+    set gdefault " Default to global regex
+    set ignorecase
     set noinfercase
     set nowrap " Wrap lines
     set shiftround " When at 3 spaces, and I hit > ... go to 4, not 5
-    set smartcase " If there are caps, go case-sensitive
-    set shiftwidth=4 " Auto-indent amount when using cindent,
-                      " >>, << and stuff like that
-    set softtabstop=4 " When hitting tab or backspace, how many spaces
-                       "should a tab be (see expandtab)
+    set smartcase " If there are capital letters, go case-sensitive
+    set shiftwidth=4 " Auto-indent amount when using cindent, >>, << and stuff like that
+    set softtabstop=4 " When hitting tab or backspace, how many spaces should a tab be (see expandtab)
     set tabstop=4 " Width of real tabs
     set textwidth=80
 " }}}
 " Mappings {{{
+    " Enable Shift-Tab {{{
+        execute 'set t_kB=' . nr2char(27) . '[Z'
+    " }}}
     " j/k always jumps one visual line {{{
         nnoremap j gj
         nnoremap k gk
     " }}}
     " Faster scrolling with <C-y>/<C-e> {{{
-        nnoremap <C-y> 2<C-y>
-        nnoremap <C-e> 2<C-e>
+        nnoremap <C-y> 3<C-y>
+        nnoremap <C-e> 3<C-e>
     " }}}
-    " Map Q to replay the macro recorded by qq {{{
-        nnoremap Q @q|
-    " }}}
-    " Search options: regular regexes, case insensitive {{{
+    " Search options: regular regexes {{{
         nnoremap / /\v
         vnoremap / /\v
     " }}}
@@ -189,36 +187,20 @@
     " Replace selection (doesn't handle multiple lines) {{{
         vnoremap <silent> <Leader>r :call VisualSelection('replace')<CR>
     " }}}
+    " Allow . to execute once for each line of a visual selection {{{
+        vnoremap . :normal .<CR>
+    " }}}
     " Show buffers and let me pick {{{
         nnoremap <Leader>b :ls<CR>:buffer<Space>
-    " }}}
-    " Map Tab to Escape. Press Shift-Tab to insert a Tab. {{{
-        nnoremap <silent> <Tab> <Esc>:nohlsearch<bar>pclose<CR>|
-        vnoremap <Tab> <Esc><Nul>|
-        inoremap <Tab> <Esc>|
-        nnoremap <S-Tab> i<Tab><Esc><Right>|
-        vnoremap <S-Tab> >gv|
-        inoremap <S-Tab> <Tab>|
     " }}}
     " Delete/Backspace {{{
         nnoremap <C-w> i<C-w><Esc>
         nnoremap <C-d> "_dw|vnoremap <C-d> "_d|inoremap <C-d> <Delete>|cnoremap <C-d> <Delete>|
         nnoremap <Delete> "_x|vnoremap <Delete> "_d|
         nnoremap <Backspace> a<Left><Backspace><Right><Esc>|vnoremap <Backspace> "_d|
-        nmap <C-h> <Backspace> " XXX: nmap BAD idea?
-    " }}}
-    " Enter splits line {{{
-        nnoremap <CR> i<CR><Esc>|
     " }}}
     " Break undo chain (Tip #1054) {{{
         inoremap <CR> <C-g>u<CR>|
-    " }}}
-    " Allow . to execute once for each line of a visual selection {{{
-        vnoremap . :normal .<CR>
-    " }}}
-    " Jump to line {{{
-        nnoremap - gg|xnoremap - gg|onoremap - gg|
-        nnoremap _ G|xnoremap _ G|onoremap _ G|
     " }}}
     " Insert Space {{{
         nnoremap <Space> i<Space><Esc><Right>|
@@ -230,17 +212,17 @@
         nnoremap <silent> <expr> <C-f> (winheight(0)-1) . "\<C-d>"
     " }}}
     " Clear search highlighting {{{
-"        noremap <silent> <Leader><Space> :noh<CR>:call clearmatches()<CR>
+        nnoremap <silent> <Leader><Leader> :set invhlsearch<CR>
     " }}}
     " Strip trailing whitespace in whole file {{{
-        nnoremap <Leader>W :%s/\s\+$//<cr>:let @/=''<CR>
+        nnoremap <Leader>W :%s/\s\+$//<CR>:let @/=''<CR>
     " }}}
     " Cursor position jumplist {{{
         nnoremap ( <C-o>|
         nnoremap ) <C-i>|
     " }}}
-    " Front and center {{{
-        " Use :sus for suspending
+    " Center {{{
+        " Use :suspend for suspending
         nnoremap <C-z> zvzz
         vnoremap <C-z> <Esc>zv`<ztgv
     " }}}
@@ -251,29 +233,32 @@
         inoremap <C-e> <Esc>A
     " }}}
     " HTML tag closing {{{
-        inoremap <C-_> <Space><BS><Esc>:call InsertCloseTag()<CR>a
+        "inoremap <C-_> <Space><BS><Esc>:call InsertCloseTag()<CR>a
     " }}}
     " Source $MYVIMRC {{{
         nnoremap <Leader>s :source $MYVIMRC<CR>:echo 'Reloaded $MYVIMRC.'<CR>
+    " }}}
     " Source line/selection {{{
-        vnoremap <Leader>S y:execute @@<CR>:echo 'Sourced selection.'<CR>
         nnoremap <Leader>S ^vg_y:execute @@<CR>:echo 'Sourced line.'<CR>
+        vnoremap <Leader>S y:execute @@<CR>:echo 'Sourced selection.'<CR>
     " }}}
     " Toggle [i]nvisible characters {{{
         nnoremap <Leader>i :set list!<CR>
     " }}}
-    " (OS X) Drag lines {{{
-    " <Opt-j> and <Opt-k> to drag lines in any mode
-        noremap ∆ :m+<CR>
-        noremap ˚ :m-2<CR>
-        inoremap ∆ <Esc>:m+<CR>
-        inoremap ˚ <Esc>:m-2<CR>
-        vnoremap ∆ :m'>+<CR>gv
-        vnoremap ˚ :m-2<CR>gv
+    " Drag lines {{{
+        execute "set <M-n>=n"
+        execute "set <M-e>=e"
+        nnoremap <M-n> :m+<CR>
+        nnoremap <M-e> :m-2<CR>
+        inoremap <M-n> <Esc>:m+<CR><Right>i
+        inoremap <M-e> <Esc>:m-2<CR><Right>i
+        vnoremap <M-n> :m'>+<CR>gv
+        vnoremap <M-e> :m-2<CR>gv
     " }}}
     " Quick editing {{{
         nnoremap <Leader>ev :e $MYVIMRC<CR>
-        nnoremap <Leader>ec :e $HOME/.vim/bundle/colemak-key-mappings/plugin/colemak-key-mappings.vim<CR>
+        nnoremap <Leader>eb :e $HOME/.vim/bundles.vim<CR>
+        nnoremap <Leader>ec :e $HOME/.vim/bundle/vim-colemak/plugin/colemak.vim<CR>
         nnoremap <Leader>et :e $HOME/.tmux.conf<CR>
     " }}}
     " Toggle relative line numbers {{{
@@ -288,115 +273,84 @@
         nnoremap <silent> <Leader>P :RemoteClipboardGet<CR>"rP
     " }}}
     " Keep search matches in the middle of the window {{{
-        nnoremap n nzzzv
-        nnoremap N Nzzzv
     " }}}
     " Stay in middle while jumping around {{{
         nnoremap g; g;zz
         nnoremap g, g,zz
         nnoremap <C-o> <C-o>zz
+        nnoremap n nzzzv
+        nnoremap N Nzzzv
     " }}}
     " Reselect pasted text {{{
         nnoremap <Leader>v V`]
     " }}}
-    " Write with Sudo {{{
+    " Save with Sudo {{{
         cnoreabbrev <expr> w!!
-                        \((getcmdtype() == ':' && getcmdline() == 'w!!')
-                        \?('!sudo tee % >/dev/null'):('w!!'))
-    " }}}
-" }}}
-" Commands {{{
-    " Write with Sudo {{{
-"        command! W w !sudo tee % > /dev/null
+                    \((getcmdtype() == ':' && getcmdline() == 'w!!')
+                    \?('!sudo tee % >/dev/null'):('w!!'))
     " }}}
 " }}}
 " Autocommands {{{
-    " Line return {{{
-        " Make sure Vim returns to the same line when you reopen a file.
-        augroup line_return
-            au!
-            au BufReadPost *
-                \ if line("'\"") > 0 && line("'\"") <= line("$") |
-                \     execute 'normal! g`"zvzz' |
-                \ endif
+    " Autowriteall on more events {{{
+        augroup AutowriteallPlus
+            autocmd!
+            autocmd InsertLeave,CursorHold,CursorHoldI,FocusLost * if &autowriteall | :silent update | endif
         augroup END
     " }}}
-    " Trailing whitespace {{{
+    " Return to line {{{
+        " Vim returns to the same line when you reopen a file.
+        augroup ReturnToLine
+            autocmd!
+            autocmd BufReadPost *
+                        \ if line("'\"") > 0 && line("'\"") <= line("$") |
+                        \     execute 'normal! g`"zvzz' |
+                        \ endif
+        augroup END
+    " }}}
+    " Toggle trailing whitespace {{{
     " Only shown when not in insert mode so I don't go insane.
-        augroup trailing
-            au!
-            "au InsertEnter * :set listchars-=trail:⌴
-            au InsertEnter * :set listchars-=trail:·
-            "au InsertLeave * :set listchars+=trail:⌴
-            au InsertLeave * :set listchars+=trail:·
+        augroup ToggleTrailingWhitespace
+            autocmd!
+            "autocmd InsertEnter * :set listchars-=trail:⌴
+            "autocmd InsertLeave * :set listchars+=trail:⌴
+            autocmd InsertEnter * :set listchars-=trail:·
+            autocmd InsertLeave * :set listchars+=trail:·
         augroup END
     " }}}
-    " Save {{{
-"    augroup its2012justfuckingsavealready
-"        au!
-"        au InsertLeave * :silent! wa
-"        au CursorHold * :silent! wa
-"        au CursorHoldI * :silent! wa
-"    augroup END
-    " }}}
-    " Save when losing focus {{{
-"        au FocusLost * :silent! wall
+    " Help file navigation {{{
+        " Use < and > to navigate in the help file
+        augroup HelpNavigation
+            autocmd!
+            autocmd FileType help nnoremap <buffer> < <C-t>|
+            autocmd FileType help nnoremap <buffer> > <C-]>|
+            autocmd FileType help nnoremap <buffer> <CR> <C-]>|
+            autocmd FileType help nnoremap <buffer> <Backspace> <C-t>|
+            autocmd FileType help nnoremap <buffer> <silent> <expr> <Space> (winheight(0)-1) . "\<C-d>0"|
+            autocmd FileType help nnoremap <buffer> <silent> <expr> <S-Space> (winheight(0)-1) . "\<C-u>0"|
+        augroup END
     " }}}
     " Resize splits when the window is resized {{{
-        au VimResized * :wincmd =
+        augroup ResizeSplitsAtWindowResize
+            autocmd!
+            autocmd VimResized * :wincmd =
+        augroup END
     " }}}
     " Only show cursorline in the current window and in normal mode {{{
-        augroup cline
-            au!
-            au WinLeave * set nocursorline
-            au WinEnter * set cursorline
-            au InsertEnter * set nocursorline
-            au InsertLeave * set cursorline
+        augroup CursorLineInCurrentWindowNormalModeOnly
+            autocmd!
+            autocmd WinLeave * set nocursorline
+            autocmd WinEnter * set cursorline
+            autocmd InsertEnter * set nocursorline
+            autocmd InsertLeave * set cursorline
         augroup END
     " }}}
 " }}}
-" Plugin Settings {{{
-"    let b:match_ignorecase = 1
-    let perl_extended_vars = 1 " Highlight advanced Perl vars inside strings
-    " TagList settings {{{
-        let Tlist_Auto_Open = 0 " Let the tag list open automagically
-        let Tlist_Compact_Format = 1 " Show small menu
-        let Tlist_Ctags_Cmd = 'ctags' " Location of ctags
-        let Tlist_Enable_Fold_Column = 0 " Do show folding tree
-        let Tlist_Exist_OnlyWindow = 1 " If you are the last, kill
-                                        " yourself
-        let Tlist_File_Fold_Auto_Close = 0 " Fold closed other trees
-        let Tlist_Sort_Type = "name" " Order by
-        let Tlist_Use_Right_Window = 1 " Split to the right side
-                                        " of the screen
-        let Tlist_WinWidth = 40 " 40 cols wide, so i can (almost always)
-                                 " read my functions
-        " Language specifics {{{
-            " Just functions and classes please
-            let tlist_aspjscript_settings = 'asp;f:function;c:class'
-            " Just functions and subs please
-            let tlist_aspvbs_settings = 'asp;f:function;s:sub'
-            " Don't show variables in freaking php
-            let tlist_php_settings = 'php;c:class;d:constant;f:function'
-            " Just functions and classes please
-            let tlist_vb_settings = 'asp;f:function;c:class'
-        " }}}
+" Commands {{{
+    " Diff original for Vim {{{
+        if !exists(":DiffOrig")
+            command DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis | wincmd p | diffthis
+        endif
     " }}}
-" }}}
-" Open help in a new tab {{{
-    cnoreabbr <expr> h    (getcmdtype() . getcmdline() != ':h'    ? 'h'    : 'tab help')
-    cnoreabbr <expr> he   (getcmdtype() . getcmdline() != ':he'   ? 'he'   : 'tab help')
-    cnoreabbr <expr> hel  (getcmdtype() . getcmdline() != ':hel'  ? 'hel'  : 'tab help')
-    cnoreabbr <expr> help (getcmdtype() . getcmdline() != ':help' ? 'help' : 'tab help')
-" }}}
-" Help file navigation {{{
-    " Use < and > to navigate in the help file
-    au FileType help nnoremap <buffer> < <C-t>|
-    au FileType help nnoremap <buffer> > <C-]>|
-    au FileType help nnoremap <buffer> <CR> <C-]>|
-    au FileType help nnoremap <buffer> <Backspace> <C-t>|
-    au FileType help nnoremap <buffer> <silent> <expr> <Space> (winheight(0)-1) . "\<C-d>0"|
-    au FileType help nnoremap <buffer> <silent> <expr> <S-Space> (winheight(0)-1) . "\<C-u>0"|
 " }}}
 " Functions {{{
     " Visual Selection {{{
@@ -424,7 +378,7 @@
             let @" = l:saved_reg
         endfunction
     " }}}
-    " Autoread {{{
+    " Autoread (enabled) {{{
         " If you are using a console version of Vim, or dealing
         " with a file that changes externally (e.g. a web server log)
         " then Vim does not always check to see if the file has been changed.
@@ -593,23 +547,31 @@
                 let msg = msg . 'Already watching ' . bufspec . ' for external updates'
             end
 
-            echo msg
+            "echo msg
             let @"=reg_saved
         endfunction
+        " Enable for all buffers at startup
+        execute WatchForChanges("*", {'autoread':1})
     " }}}
 " }}}
+" Plugin Settings and Fixes {{{
+    let g:Powerline_symbols = 'fancy'
+    let perl_extended_vars = 1 " Highlight advanced Perl variables inside strings
 
-" Move this to a sensible place!
-let g:EclimEclipseHome = '/usr/local/lib/eclipse-devel'
-let g:EclimHome = '/usr/local/lib/eclipse-devel/plugins/org.eclim_2.2.1'
-let g:badwolf_html_link_underline = 1
-let g:Powerline_colorscheme='skwp'
-let g:Powerline_symbols = 'fancy'
-let g:solarized_visibility = 'low'
-match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$' " Highlight VCS conflict markers
+    let g:SuperTabCrMapping = 0 " Fix, https://github.com/ervandew/supertab/issues/54
+    let g:surround_no_mappings = 1 " Fix for Colemak.vim
+    call yankstack#setup() " Fix, https://github.com/maxbrunsfeld/vim-yankstack/issues/9
 
-if !exists(":DiffOrig")
-    command DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis
-                   \ | wincmd p | diffthis
-endif
+    " Fix for Colemak.vim, mapped in tpope/vim-fugitive, stalls 'y' which should act as regular 'w'
+        augroup RemoveFugitiveMappingForColemak
+            autocmd!
+            autocmd BufEnter * if mapcheck("y<C-G>", "n") == ":call setreg(v:register, <SNR>24_recall())<CR>" | execute "nunmap <buffer> <silent> y<C-G>" | endif
+        augroup END
+
+    " Colemak.vim (reload to be last)
+        source $HOME/.vim/bundle/vim-colemak/plugin/colemak.vim
+" }}}
+" Local VimRC {{{
+    source $HOME/.vimrc.local
+" }}}
 
