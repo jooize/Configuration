@@ -560,7 +560,7 @@
 
     let g:SuperTabCrMapping = 0 " Fix, https://github.com/ervandew/supertab/issues/54
     let g:surround_no_mappings = 1 " Fix for Colemak.vim
-    call yankstack#setup() " Fix, https://github.com/maxbrunsfeld/vim-yankstack/issues/9
+    silent! call yankstack#setup() " Fix, https://github.com/maxbrunsfeld/vim-yankstack/issues/9
 
     " Fix for Colemak.vim, mapped in tpope/vim-fugitive, stalls 'y' which should act as regular 'w'
         augroup RemoveFugitiveMappingForColemak
@@ -569,9 +569,9 @@
         augroup END
 
     " Colemak.vim (reload to be last)
-        source $HOME/.vim/bundle/vim-colemak/plugin/colemak.vim
+        silent! source $HOME/.vim/bundle/vim-colemak/plugin/colemak.vim
 " }}}
 " Local VimRC {{{
-    source $HOME/.vimrc.local
+    silent! source $HOME/.vimrc.local
 " }}}
 
