@@ -1,7 +1,9 @@
 #!/bin/sh
 
-echo 'find $HOME/.dotfiles -name ".*" -not -path "$HOME/.dotfiles" -not -path "$HOME/.dotfiles/.git" -path "*" -prune -exec ln -s -f {} $HOME \;' >> "$(dirname $0)"/.git/hooks/post-commit
-sh "$(dirname $0)"/.git/hooks/post-commit
+scriptdirectory="`dirname $0`"
 
-echo "Symlinked all dotfiles to $HOME and added script to post-commit hook that does this after every commit."
+echo 'find $HOME/.dotfiles -name ".*" -not -path "$HOME/.dotfiles" -not -path "$HOME/.dotfiles/.git" -path "*" -prune -exec ln -s -f {} $HOME \;' >> "${scriptdirectory}"/.git/hooks/post-commit
+sh "${scriptdirectory}"/.git/hooks/post-commit
+
+echo "Symlinked all dotfiles to $HOME and added script to Git post-commit hook which re-symlinks after every commit."
 
