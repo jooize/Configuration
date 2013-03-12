@@ -16,7 +16,7 @@ install_prezto()
 symlink()
 {
 	cd "$destination"
-	for dotfile in "$dotfiles/.*"; do
+	for dotfile in "$dotfiles"/.*; do
 		ln -s "$dotfile"
 	done
 }
