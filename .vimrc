@@ -54,6 +54,10 @@
     " }}}
 " }}}
 " Backup/Swap/Undo {{{
+    silent! call mkdir("~/.vim/tmp")
+    silent! call mkdir("$HOME/.vim/tmp/backup")
+    silent! call mkdir("$HOME/.vim/tmp/swap")
+    silent! call mkdir("$HOME/.vim/tmp/undo")
     set backupdir=$HOME/.vim/tmp/backup//
     set directory=$HOME/.vim/tmp/swap//
     set undodir=$HOME/.vim/tmp/undo//
@@ -353,6 +357,41 @@
     " }}}
 " }}}
 " Functions {{{
+    " Create directories {{{
+        function! InitBackupDir()
+            let l:parent = $HOME . '/.vim/tmp/'
+            let l:backup = l:parent . 'backup/'
+            let l:tmp = l:parent . 'swap/'
+            let l:undo = l:parent . 'undo/'
+            if exists('*mkdir')
+                if !isdirectory(l:parent)
+                    call mkdir(l:parent)
+                endif
+                if !isdirectory(l:backup)
+                    call mkdir(l:backup)
+                endif
+                if !isdirectory(l:tmp)
+                    call mkdir(l:tmp)
+                endif
+                if !isdirectory(l:undo)
+                    call mkdir(l:undo)
+                endif
+            endif
+            if !isdirectory(l:backup)
+                echo 'Warning: Unable to create directory ' l:backup '. Using current directory for backup files.'
+                set backupdir=.
+            endif
+            if !isdirectory(l:tmp)
+                echo 'Warning: Unable to create directory ' l:tmp '. Using current directory for swap files.'
+                set directory=.
+            endif
+            if !isdirectory(l:undo)
+                echo 'Warning: Unable to create directory ' l:undo '. Using current directory for undo files.'
+                set undodir=.
+            endif
+        endfunction
+        call InitBackupDir()
+    " }}}
     " Visual Selection {{{
         function! CmdLine(str)
             exe "menu Foo.Bar :" . a:str
