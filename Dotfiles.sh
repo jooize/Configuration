@@ -4,15 +4,6 @@
 
 dotfiles="$HOME"/.dotfiles
 
-install()
-{
-	git clone git://github.com/jooize/Dotfiles.git "$dotfiles"
-	install_prezto
-	symlink
-	git clone https://github.com/gmarik/vundle.git "$dotfiles"/.vim/bundle/vundle
-	vim +BundleInstall +qall
-}
-
 install_prezto()
 {
 	git clone --recursive https://github.com/sorin-ionescu/prezto.git "$dotfiles"/.zprezto
@@ -29,6 +20,15 @@ symlink()
 	for dotfile in "$dotfiles/.*"; do
 		ln -s "$dotfile" "$destination/$dotfile"
 	done
+}
+
+install()
+{
+	git clone git://github.com/jooize/Dotfiles.git "$dotfiles"
+	install_prezto
+	symlink
+	git clone https://github.com/gmarik/vundle.git "$dotfiles"/.vim/bundle/vundle
+	vim +BundleInstall +qall
 }
 
 case "$1" in
