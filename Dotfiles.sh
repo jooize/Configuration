@@ -7,8 +7,8 @@ dotfiles="$HOME"/.dotfiles
 install()
 {
 	git clone git://github.com/jooize/Dotfiles.git "$dotfiles"
-	install_prezto()
-	symlink()
+	install_prezto
+	symlink
 	git clone https://github.com/gmarik/vundle.git "$dotfiles"/.vim/bundle/vundle
 	vim +BundleInstall +qall
 }
