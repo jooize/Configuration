@@ -43,3 +43,6 @@ case "$1" in
 		;;
 esac
 
+if ! [ -t 0 ]; then
+	install
+fi
