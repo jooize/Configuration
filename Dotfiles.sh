@@ -1,7 +1,6 @@
 #!/bin/sh
 
-# Should take first argument as dotfile directory
-
+destination="$HOME"
 dotfiles="$HOME"/.dotfiles
 
 install_prezto()
@@ -16,9 +15,9 @@ install_prezto()
 
 symlink()
 {
-	cd "$HOME"
+	cd "$destination"
 	for dotfile in "$dotfiles/.*"; do
-		ln -s "$dotfile" "$destination/$dotfile"
+		ln -s "$dotfile"
 	done
 }
 
@@ -39,10 +38,11 @@ case "$1" in
 		symlink
 		;;
 	*)
-		echo "Usage: Dotfiles.sh <install|symlink>"
+		if ! [ -t 0 ]; then
+			install
+		else
+			echo "Usage: Dotfiles.sh <install|symlink>"
+		fi
 		;;
 esac
 
-if ! [ -t 0 ]; then
-	install
-fi
