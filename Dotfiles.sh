@@ -9,7 +9,7 @@ install_prezto()
 	git clone --recursive https://github.com/sorin-ionescu/prezto.git "$dotfiles"/.zprezto
 	cd "$dotfiles"
 	for rcfile in "$dotfiles"/.zprezto/runcoms/z*; do
-		rcfilename = `basename $rcfile`
+		rcfilename=`basename $rcfile`
 		ln -s "$rcfile" .$rcfilename
 	done
 }
