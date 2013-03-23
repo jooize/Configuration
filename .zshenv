@@ -31,7 +31,7 @@ export EDITOR='vim'
 export VISUAL='vim'
 
 if [[ -e "$HOME/.vim/bundle/vimpager/vimpager" ]]; then
-  export PAGER='$HOME/.vim/bundle/vimpager/vimpager'
+  export PAGER="$HOME/.vim/bundle/vimpager/vimpager"
 else
   export PAGER='less'
 fi
