@@ -44,7 +44,7 @@ if [[ -z "$LANG" ]]; then
   export LANG='en_US.UTF-8'
 fi
 
-if [[ "$LC_CTYPE" -eq 'UTF-8' ]]; then
+if [[ "$LC_CTYPE" == 'UTF-8' ]]; then
   export LC_CTYPE='en_US.UTF-8'
 fi
 
