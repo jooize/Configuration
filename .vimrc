@@ -82,7 +82,7 @@
         colorscheme desert
     endif
 
-    set colorcolumn=+1
+    "set colorcolumn=+1
     set cursorline " Highlight current line
     " Folding
         set foldenable " Turn on folding
