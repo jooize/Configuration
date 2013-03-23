@@ -599,18 +599,18 @@
     let g:surround_no_mappings = 1 " Fix for Colemak.vim
     silent! call yankstack#setup() " Fix, https://github.com/maxbrunsfeld/vim-yankstack/issues/9
 
+    " Vim Pager
+        let vimpager_scrolloff = 99999
+        if exists("vimpager")
+            set nolist
+        endif
+
     " Fix for Colemak.vim, mapped in tpope/vim-fugitive, stalls 'y' which should act as regular 'w'
         augroup RemoveFugitiveMappingForColemak
             autocmd!
             "autocmd BufEnter * if mapcheck("y<C-G>", "n") == ":call setreg(v:register, <SNR>33_recall())<CR>" | execute "nunmap <buffer> <silent> y<C-G>" | endif
             autocmd BufEnter * silent! execute "nunmap <buffer> <silent> y<C-G>"
         augroup END
-
-    " Vim Pager
-        let vimpager_scrolloff = 99999
-        if exists("vimpager")
-            set nolist
-        endif
 
     " Colemak.vim (reload to be last)
         silent! source $HOME/.vim/bundle/vim-colemak/plugin/colemak.vim
