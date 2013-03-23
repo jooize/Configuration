@@ -602,7 +602,8 @@
     " Fix for Colemak.vim, mapped in tpope/vim-fugitive, stalls 'y' which should act as regular 'w'
         augroup RemoveFugitiveMappingForColemak
             autocmd!
-            autocmd BufEnter * if mapcheck("y<C-G>", "n") == ":call setreg(v:register, <SNR>33_recall())<CR>" | execute "nunmap <buffer> <silent> y<C-G>" | endif
+            "autocmd BufEnter * if mapcheck("y<C-G>", "n") == ":call setreg(v:register, <SNR>33_recall())<CR>" | execute "nunmap <buffer> <silent> y<C-G>" | endif
+            autocmd BufEnter * silent! execute "nunmap <buffer> <silent> y<C-G>"
         augroup END
 
     " Colemak.vim (reload to be last)
