@@ -7,7 +7,7 @@
         set guifont=Envy_Code_R:h11,Consolas:h10,Anonymous_Pro:h10,Lucida_Console:h10
     endif
     if has("gui_macvim")
-        set guifont=Monaco:h12,Andale_Mono:h12,Menlo:h12
+        set guifont=Menlo:h12,Andale_Mono:h12,Monaco:h12
     endif
     set guioptions=ce
     "              ||
