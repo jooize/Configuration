@@ -590,6 +590,8 @@
     " }}}
 " }}}
 " Plugin Settings and Fixes {{{
+    let g:rainbow_active = 1
+    let g:rainbow_operators = 1
     let g:Powerline_symbols = 'fancy'
     let perl_extended_vars = 1 " Highlight advanced Perl variables inside strings
 
