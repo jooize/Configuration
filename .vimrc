@@ -606,13 +606,14 @@
             autocmd BufEnter * silent! execute "nunmap <buffer> <silent> y<C-G>"
         augroup END
 
-    " Colemak.vim (reload to be last)
-        silent! source $HOME/.vim/bundle/vim-colemak/plugin/colemak.vim
     " Vim Pager
         let vimpager_scrolloff = 99999
         if exists("vimpager")
             set nolist
         endif
+
+    " Colemak.vim (reload to be last)
+        silent! source $HOME/.vim/bundle/vim-colemak/plugin/colemak.vim
 " }}}
 " Local Vim Configuration {{{
     silent! source $HOME/.vimrc.local
