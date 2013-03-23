@@ -27,9 +27,9 @@ Bundle 'scrooloose/syntastic'
 " Added 2013-01-03
 Bundle 'maxbrunsfeld/vim-yankstack'
 Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
-" Added 2013-01-21
-Bundle 'vim-scripts/Rainbow-Parentheses-Improved-and2.git'
 " Added 2013-03-10
 Bundle 'jamesinchina/eclim-vundle'
+" Added 2013-03-23
+Bundle 'jooize/Rainbow-Parentheses-Improved-and2'
 
 filetype plugin indent on
