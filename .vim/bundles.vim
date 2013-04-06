@@ -31,5 +31,8 @@ Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
 Bundle 'jamesinchina/eclim-vundle'
 " Added 2013-03-23
 Bundle 'jooize/Rainbow-Parentheses-Improved-and2'
+Bundle 'jooize/vim-remoteclipboard'
+Bundle 'chrisbra/SudoEdit.vim'
+Bundle 'nginx.vim'
 
 filetype plugin indent on
