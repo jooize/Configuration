@@ -6,11 +6,17 @@
 #
 
 #
+# Default
+#
+export BLOCKSIZE='K'
+export MAIL="/var/mail/$USER"
+
+#
 # Terminal type, fix for Tmux race condition. -- http://blog.sanctum.geek.nz/terminal-colour-tolerance/
 #
 case "$CONTAINING_TERM" in
   *256color)
-    TERM=screen-256color
+    export TERM='screen-256color'
     unset CONTAINING_TERM
     ;;
 esac
@@ -62,7 +68,9 @@ typeset -gU cdpath fpath mailpath path
 # Set the list of directories that Zsh searches for programs.
 path=(
   /usr/local/{bin,sbin}
+  /usr/sbin
   $path
+  $HOME/Executables
 )
 
 #
