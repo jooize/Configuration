@@ -12,4 +12,5 @@ fi
 
 # Customize to your needs...
 alias t='python $HOME/Executables/t/t.py --task-dir ~/ --list Todo.txt --delete-if-empty'
+alias bell='fg ; ""'
 

@@ -15,7 +15,7 @@ export MAIL="/var/mail/$USER"
 # Terminal type, fix for Tmux race condition. -- http://blog.sanctum.geek.nz/terminal-colour-tolerance/
 #
 case "$CONTAINING_TERM" in
-  *256color)
+  *256col*)
     export TERM='screen-256color'
     unset CONTAINING_TERM
     ;;
