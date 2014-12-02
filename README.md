@@ -1,7 +1,3 @@
-Dotfiles
-========
-Yeh~
-
 Install
 =======
 ``` sh
@@ -21,25 +17,4 @@ stow Vim && vim +BundleInstall +qall
 If you don't have Stow available:
 ``` sh
 find $(find Dotfiles -type d -mindepth 1 -maxdepth 1) -name '.*' -mindepth 1 -maxdepth 1 -exec ln -s {} . \;
-```
-
-Testing
-=======
-Create a structure as below and run ```cd $HOME/SymlinkTest && find $(find Dotfiles -type d -mindepth 1 -maxdepth 1) -name '.*' -mindepth 1 -maxdepth 1 -exec echo {} \;``` to see that the correct files will be symlinked.
-
-```
-~/SymlinkTest ❯❯❯ tree -a
-.
-└── Dotfiles
-    ├── Git
-    ├── Tmux
-    │   ├── .tmux
-    │   │   └── do-not-include
-    │   └── .tmux.conf
-    ├── Zsh
-    │   ├── .SUPPORTSmultiCaSe
-    │   ├── .zshenv
-    │   ├── .zshrc
-    │   └── SKIP-README.md
-    └── do-not-include-either
 ```
