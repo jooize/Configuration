@@ -6,13 +6,13 @@ Install
 =======
 ``` sh
 cd $HOME
-git clone git@github.com:jooize/Dotfiles.git
+git clone https://github.com/jooize/Dotfiles
 cd Dotfiles
 git submodule init
 git submodule update
 stow Tmux
-stow Vim
 stow Zsh
+stow Vim && vim +BundleInstall +qall
 ```
 
 Old way was:
