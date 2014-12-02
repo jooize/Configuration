@@ -18,7 +18,7 @@ stow Zsh
 stow Vim && vim +BundleInstall +qall
 ```
 
-If you don't have Stow, use this:
+If you don't have Stow available:
 ``` sh
 find $(find Dotfiles -type d -mindepth 1 -maxdepth 1) -name '.*' -mindepth 1 -maxdepth 1 -exec ln -s {} . \;
 ```
