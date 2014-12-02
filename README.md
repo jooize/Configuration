@@ -4,8 +4,8 @@ Yeh~
 
 Install
 =======
-<pre>git clone git@github.com:jooize/Dotfiles.git $HOME/.dotfiles && $HOME/.dotfiles/Dotfiles.sh install</pre>
-
-TODO
-====
-* Create relative paths for symlinks, couldn't manage to find or modify into a Bourne (/bin/sh) compatible one.
+``` sh
+cd $HOME
+git clone git@github.com:jooize/Dotfiles.git
+find $(find Dotfiles -type d -mindepth 1 -maxdepth 1) -name '.*' -mindepth 1 -maxdepth 1 -exec ln -s {} . \;
+```
