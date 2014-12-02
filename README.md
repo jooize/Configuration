@@ -6,7 +6,7 @@ Install
 =======
 ``` sh
 cd $HOME
-git clone https://github.com/jooize/Dotfiles
+git clone git@github.com:jooize/Dotfiles
 cd Dotfiles
 git submodule init
 git submodule update
