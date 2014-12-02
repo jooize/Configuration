@@ -7,6 +7,16 @@ Install
 ``` sh
 cd $HOME
 git clone git@github.com:jooize/Dotfiles.git
+cd Dotfiles
+git submodule init
+git submodule update
+stow Tmux
+stow Vim
+stow Zsh
+```
+
+Old way was:
+``` sh
 find $(find Dotfiles -type d -mindepth 1 -maxdepth 1) -name '.*' -mindepth 1 -maxdepth 1 -exec ln -s {} . \;
 ```
 
