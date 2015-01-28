@@ -1,6 +1,30 @@
 " vim: expandtab
-" Vundle {{{
-    source $HOME/.vim/bundles.vim
+" Plugins {{{
+    call plug#begin('~/.vim/bundle')
+
+    Plug 'jooize/vim-bracketed-paste'
+    Plug 'jooize/vim-colemak'
+    Plug 'ciaranm/securemodelines'
+    Plug 'bling/vim-airline'
+        let g:airline_left_sep = ''
+        let g:airline_right_sep = ''
+        let g:airline#extensions#tabline#enabled = 1
+        let g:airline#extensions#tabline#left_sep = ' '
+        let g:airline#extensions#tabline#left_alt_sep = '|'
+    Plug 'rkitover/vimpager'
+        let vimpager_passthrough = 1
+    Plug 'scrooloose/nerdcommenter'
+    Plug 'matchit.zip'
+    Plug 'luochen1990/rainbow'
+        let g:rainbow_active = 1
+    Plug 'tpope/vim-fugitive'
+    Plug 'tpope/vim-git'
+    Plug 'scrooloose/syntastic'
+    Plug 'nginx.vim'
+    Plug 'othree/html5.vim'
+    Plug 'hynek/vim-python-pep8-indent'
+
+    call plug#end()
 " }}}
 " Basics {{{
     set nocompatible " Explicitly get out of Vi compatible mode
@@ -256,14 +280,13 @@
     " }}}
     " Quickly open specific files {{{
         nnoremap <Leader>ev :edit $MYVIMRC<CR>
-        nnoremap <Leader>eb :edit $HOME/.vim/bundles.vim<CR>
         nnoremap <Leader>ec :edit $HOME/.vim/bundle/vim-colemak/plugin/colemak.vim<CR>
         nnoremap <Leader>et :edit $HOME/.tmux.conf<CR>
     " }}}
     " Source specific files quickly {{{
         nnoremap <Leader>ss :execute 'source '.bufname('%')<CR>:echo "Sourced current buffer."<CR>
-        nnoremap <Leader>sv :source $MYVIMRC<CR>
-        nnoremap <Leader>sc :source $HOME/.vim/bundle/vim-colemak/plugin/colemak.vim<CR>
+        nnoremap <Leader>sv :source "$MYVIMRC"<CR>
+        nnoremap <Leader>sc :source "$HOME/.vim/bundle/vim-colemak/plugin/colemak.vim"<CR>
     " }}}
     " Source line/selection {{{
         "nnoremap <Leader>S ^vg_y:execute @@<CR>:echo 'Sourced line.'<CR>
@@ -626,8 +649,6 @@
     " }}}
 " }}}
 " Plugin Settings and Fixes {{{
-    let g:rainbow_active = 1
-    let g:rainbow_operators = 1
     let g:Powerline_symbols = 'compatible'
     let perl_extended_vars = 1 " Highlight advanced Perl variables inside strings
     let g:RemoteClipboardGetCommand = "ssh -q 10.1.1.11 pbpaste"
@@ -658,7 +679,7 @@
     "
     " Colemak.vim (reload to be last)
     "
-    silent! source $HOME/.vim/bundle/vim-colemak/plugin/colemak.vim
+    silent! source "$HOME/.vim/bundle/vim-colemak/plugin/colemak.vim"
 
     " Window handling on ^R since I have ^W for delete-backward-word
     nnoremap <C-r>h <C-w>h|xnoremap <C-r>h <C-w>h|
@@ -666,8 +687,8 @@
     nnoremap <C-r>e <C-w>k|xnoremap <C-r>e <C-w>k|
     nnoremap <C-r>i <C-w>l|xnoremap <C-r>i <C-w>l|
 " }}}
-" Local Vim Configuration {{{
-    silent! source $HOME/.vimrc.local
+" Local Configuration {{{
+    silent! source "$HOME/.vimrc.local"
 " }}}
 
 "set nottybuiltin term=$TERM
