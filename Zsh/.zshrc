@@ -9,17 +9,18 @@ bindkey '^Z' undo
 
 export WORDCHARS='*?_-[]~&;!#$%^(){}<>'
 
+zstyle ':completion:*' menu select=2
+
 autoload -U url-quote-magic
 zle -N self-insert url-quote-magic
 
-zstyle ':completion:*' menu select=2
-
-source $HOME/.antigen/antigen.zsh
+source "$HOME/.antigen/antigen.zsh"
 export PURE_GIT_PULL=0
 antigen bundle sindresorhus/pure
+antigen bundle zsh-users/zsh-completions
 antigen bundle zsh-users/zsh-history-substring-search
 antigen bundle zsh-users/zsh-syntax-highlighting
-antigen bundle robbyrussell/oh-my-zsh plugins/safe-paste
+#antigen bundle robbyrussell/oh-my-zsh plugins/safe-paste
 antigen apply
 
 alias t='python $HOME/Executables/t/t.py --task-dir ~/ --list Todo.txt --delete-if-empty'
