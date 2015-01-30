@@ -7,6 +7,7 @@ cd Configuration
 git submodule init
 git submodule update
 stow Git Tmux Zsh Vim
+vim +PlugInstall +qall
 ```
 
 If you don't have Stow available:
