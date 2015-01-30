@@ -6,12 +6,7 @@ git clone git@github.com:jooize/Dotfiles
 cd Dotfiles
 git submodule init
 git submodule update
-stow Git
-stow GnuPG
-stow SSH
-stow Tmux
-stow Zsh
-stow Vim && vim +BundleInstall +qall
+stow Git Tmux Zsh Vim
 ```
 
 If you don't have Stow available:
