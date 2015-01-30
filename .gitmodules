@@ -5,5 +5,5 @@
 	path = Zsh/.antigen
 	url = https://github.com/zsh-users/antigen.git
 [submodule "Tmux/.tmux/tmux-powerline-theme"]
-	path = Tmux/.tmux/tmux-powerline-theme
+	path = Tmux/.tmux/powerline-theme
 	url = https://github.com/jooize/tmux-powerline-theme
