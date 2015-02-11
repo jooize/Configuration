@@ -4,6 +4,7 @@
 
 [core]
 	autocrlf = input
+	excludesfile = /Users/jooize/.gitignore_global
 
 [color]
 	ui = auto
