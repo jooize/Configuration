@@ -8,6 +8,7 @@ bindkey '^J' self-insert
 bindkey '^Z' undo
 
 export WORDCHARS='*?_-[]~&;!#$%^(){}<>'
+export MOSH_TITLE_NOPREFIX=1
 
 zstyle ':completion:*' menu select=2
 
