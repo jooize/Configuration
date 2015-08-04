@@ -14,18 +14,17 @@
     Plug 'rkitover/vimpager'
         let vimpager_passthrough = 1
     Plug 'scrooloose/nerdcommenter'
-    Plug 'matchit.zip'
+    "Plug 'matchit.zip'
     Plug 'luochen1990/rainbow'
         let g:rainbow_active = 1
-    Plug 'tpope/vim-fugitive'
-    Plug 'tpope/vim-git'
-    Plug 'tpope/vim-liquid'
+    "Plug 'tpope/vim-fugitive'
+    "Plug 'tpope/vim-git'
     "Plug 'scrooloose/syntastic'
-    Plug 'nginx.vim'
-    Plug 'othree/html5.vim'
+    "Plug 'nginx.vim'
+    "Plug 'othree/html5.vim'
     "Plug 'hynek/vim-python-pep8-indent'
-    Plug 'parkr/vim-jekyll'
-    Plug 'fatih/vim-go'
+    "Plug 'parkr/vim-jekyll'
+    "Plug 'fatih/vim-go'
 
     call plug#end()
 " }}}
@@ -45,7 +44,7 @@
     "set clipboard=unnamed " Share OS X clipboard
     set fileformats=unix,dos,mac " Support all three, in this order
     set hidden " You can switch buffers without saving
-    let mapleader = ","
+    let mapleader = "\<Space>"
     let maplocalleader = ";"
     set modeline " Enable modelines
     set modelines=5 " Amount of lines to scan for modeline (top/bottom)
@@ -56,7 +55,7 @@
     set ttymouse=xterm2 " Make mouse drag work in Tmux
 
     " Wildmenu completion {{{
-        set wildmenu
+        "set wildmenu
 
         set wildignore+=.git,.hg,.svn                    " Version control
         set wildignore+=*.aux,*.out,*.toc                " LaTeX intermediate files
@@ -84,6 +83,7 @@
     set backup
     set swapfile
     set undofile
+    "set undolevels=1000
     set undoreload=10000
 " }}}
 " Vim UI {{{
@@ -158,7 +158,7 @@
     set showcmd " Show the command being typed
     set showmatch " Show matching brackets
     set sidescroll=1 " Scroll by 'n' character(s)
-    set sidescrolloff=20 " Keep 'n' lines at the size
+    set sidescrolloff=20 " Keep 'n' character(s) at the side
     set splitbelow " Put the new window below when splitting
     set splitright
     set nostartofline " Leave my cursor where it was
@@ -184,7 +184,7 @@
     set formatoptions-=tc
     set formatoptions+=rnq " May be overridden by filetype plugins
     set formatoptions+=l " http://vim.wikia.com/wiki/Word_wrap_without_line_breaks
-    set gdefault " Default to global regex
+    "set gdefault " Default to global regex
     set ignorecase
     set noinfercase
     set nowrap " Wrap lines
@@ -209,9 +209,9 @@
     " Enable Shift-Tab {{{
         execute 'set t_kB=' . nr2char(27) . '[Z'
     " }}}
-    " j/k always jumps one visual line {{{
-        nnoremap j gj
-        nnoremap k gk
+    " (OFF) j/k always jumps one visual line {{{
+        "nnoremap j gj
+        "nnoremap k gk
     " }}}
     " Faster scrolling with <C-y>/<C-e> {{{
         nnoremap <C-y> 3<C-y>
@@ -222,14 +222,13 @@
         vnoremap / /\v
     " }}}
     " Visual mode pressing * or # searches for the current selection {{{
-        "vnoremap <silent> * :call VisualSelection('next')<CR>
-        "vnoremap <silent> # :call VisualSelection('previous')<CR>
+        vnoremap <silent> * :call VisualSelection('next')<CR>
+        vnoremap <silent> # :call VisualSelection('previous')<CR>
+        " When you press <Leader>r you can search and replace the selected text
+        vnoremap <silent> <Leader>r :call VisualSelection('replace')<CR>
     " }}}
-    " Replace selection (doesn't handle multiple lines) {{{
-        "vnoremap <silent> <Leader>r :call VisualSelection('replace')<CR>
-    " }}}
-    " Allow . to execute once for each line of a visual selection {{{
-        vnoremap . :normal .<CR>
+    " (OFF) Allow . to execute once for each line of a visual selection {{{
+        "vnoremap . :normal .<CR>
     " }}}
     " Show buffers and let me pick {{{
         nnoremap <Leader>b :ls<CR>:buffer<Space>
@@ -254,7 +253,7 @@
         xnoremap <silent> <Space> :<C-u>let b:tmp_var=&sw\|set sw=1\|normal! gv><CR>:<C-u>let &sw=b:tmp_var\|normal! gv<CR>
         xnoremap <silent> <S-Space> :<C-u>let b:tmp_var=&sw\|set sw=1\|normal! gv<<CR>:<C-u>let &sw=b:tmp_var\|normal! gv<CR>
     " }}}
-    " Page up/down {{{
+    " Page up/down with ^B and ^F {{{
         nnoremap <silent> <expr> <C-b> (winheight(0)-1) . "\<C-u>"
         nnoremap <silent> <expr> <C-f> (winheight(0)-1) . "\<C-d>"
     " }}}
@@ -280,6 +279,8 @@
         inoremap <C-e> <Esc>A
         cnoremap <C-b> <Left>
         cnoremap <C-f> <Right>
+        inoremap <C-b> <Left>
+        inoremap <C-f> <Right>
     " }}}
     " Quickly open specific files {{{
         nnoremap <Leader>ev :edit $MYVIMRC<CR>
@@ -287,11 +288,11 @@
         nnoremap <Leader>et :edit $HOME/.tmux.conf<CR>
     " }}}
     " Source specific files quickly {{{
-        nnoremap <Leader>ss :execute 'source '.bufname('%')<CR>:echo "Sourced current buffer."<CR>
+        "nnoremap <Leader>ss :execute 'source '.bufname('%')<CR>:echo "Sourced current buffer."<CR>
         nnoremap <Leader>sv :source "$MYVIMRC"<CR>
         nnoremap <Leader>sc :source "$HOME/.vim/bundle/vim-colemak/plugin/colemak.vim"<CR>
     " }}}
-    " Source line/selection {{{
+    " (OFF) Source line/selection {{{
         "nnoremap <Leader>S ^vg_y:execute @@<CR>:echo 'Sourced line.'<CR>
         "vnoremap <Leader>S y:execute @@<CR>:echo 'Sourced selection.'<CR>
     " }}}
@@ -312,12 +313,12 @@
         nnoremap <Leader>n :setlocal relativenumber!<CR>
         nnoremap <Leader>N :setlocal number!<CR>
     " }}}
-    " Stay in middle while jumping around {{{
-        nnoremap g; g;zz
-        nnoremap g, g,zz
-        nnoremap <C-o> <C-o>zz
-        nnoremap n nzzzv
-        nnoremap N Nzzzv
+    " (OFF) Stay in middle while jumping around {{{
+        "nnoremap g; g;zz
+        "nnoremap g, g,zz
+        "nnoremap <C-o> <C-o>zz
+        "nnoremap n nzzzv
+        "nnoremap N Nzzzv
     " }}}
     " Reselect pasted text {{{
         nnoremap <Leader>v V`]
@@ -341,7 +342,7 @@
         augroup END
     " }}}
     " Toggle trailing whitespace {{{
-    " Only shown when not in insert mode so I don't go insane.
+        " Only shown when not in insert mode so I don't go insane.
         augroup ToggleTrailingWhitespace
             autocmd!
             "autocmd InsertEnter * :set listchars-=trail:⌴
@@ -595,6 +596,33 @@
         endfunction
         " Enable for all buffers at startup
         execute WatchForChanges("*", {'autoread':1})
+    " }}}
+    " Visual Selection {{{
+        function! CmdLine(str)
+            exe "menu Foo.Bar :" . a:str
+            emenu Foo.Bar
+            unmenu Foo
+        endfunction
+        function! VisualSelection(command) range
+            let l:saved_reg = @"
+            execute "normal! vgvy"
+
+            let l:pattern = escape(@", '\\/.*$^~[]')
+            let l:pattern = substitute(l:pattern, "\n$", "", "")
+
+            if a:command == 'previous'
+                execute "normal ?" . l:pattern . "
+"
+            elseif a:command == 'next'
+                execute "normal /" . l:pattern . "
+"
+            elseif a:command == 'replace'
+                call CmdLine("%s" . '/'. l:pattern . '/')
+            endif
+
+            let @/ = l:pattern
+            let @" = l:saved_reg
+        endfunction
     " }}}
     " Replay history {{{
         function! <sid>HistReplay()
