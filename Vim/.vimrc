@@ -429,31 +429,6 @@
         endfunction
         call InitBackupDir()
     " }}}
-    " Visual Selection {{{
-        function! CmdLine(str)
-            exe "menu Foo.Bar :" . a:str
-            emenu Foo.Bar
-            unmenu Foo
-        endfunction
-        function! VisualSelection(command) range
-            let l:saved_reg = @"
-            execute "normal! vgvy"
-
-            let l:pattern = escape(@", '\\/.*$^~[]')
-            let l:pattern = substitute(l:pattern, "\n$", "", "")
-
-            if a:command == 'previous'
-                execute "normal ?" . l:pattern . ""
-            elseif a:command == 'next'
-                execute "normal /" . l:pattern . ""
-            elseif a:command == 'replace'
-                call CmdLine("%s" . '/'. l:pattern . '/')
-            endif
-
-            let @/ = l:pattern
-            let @" = l:saved_reg
-        endfunction
-    " }}}
     " Autoread (enabled) {{{
         " If you are using a console version of Vim, or dealing
         " with a file that changes externally (e.g. a web server log)
