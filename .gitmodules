@@ -1,10 +1,7 @@
-[submodule "Vim/.vim/bundle/Vundle.vim"]
-	path = Vim/.vim/bundle/Vundle.vim
-	url = https://github.com/gmarik/Vundle.vim
 [submodule "Zsh/.antigen"]
 	path = Zsh/.antigen
 	url = https://github.com/zsh-users/antigen.git
-[submodule "Tmux/.tmux/tmux-powerline-theme"]
+[submodule "Tmux/.tmux/powerline-theme"]
 	path = Tmux/.tmux/powerline-theme
 	url = https://github.com/jooize/tmux-powerline-theme
-    ignore = dirty
+	ignore = dirty
