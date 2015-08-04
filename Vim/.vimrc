@@ -653,12 +653,6 @@
     " Colemak.vim (reload to be last)
     "
     silent! source "$HOME/.vim/bundle/vim-colemak/plugin/colemak.vim"
-
-    " Window handling on ^R since I have ^W for delete-backward-word
-    nnoremap <C-r>h <C-w>h|xnoremap <C-r>h <C-w>h|
-    nnoremap <C-r>n <C-w>j|xnoremap <C-r>n <C-w>j|
-    nnoremap <C-r>e <C-w>k|xnoremap <C-r>e <C-w>k|
-    nnoremap <C-r>i <C-w>l|xnoremap <C-r>i <C-w>l|
 " }}}
 " Local Configuration {{{
     silent! source "$HOME/.vimrc.local"
