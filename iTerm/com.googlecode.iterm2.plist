@@ -737,9 +737,9 @@
 	<key>NSWindow Frame NSFontPanel</key>
 	<string>873 199 445 270 0 0 1366 746 </string>
 	<key>NSWindow Frame Preferences</key>
-	<string>127 261 605 485 0 0 1366 768 </string>
+	<string>127 240 924 485 0 0 1366 745 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>4 270 650 476 0 0 1366 746 </string>
+	<string>0 0 1366 768 0 0 1366 745 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
 	<string>660 727 1258 451 0 0 1920 1200 </string>
 	<key>NSWindow Frame iTerm Window 2</key>
@@ -1062,13 +1062,6 @@
 					<integer>11</integer>
 					<key>Text</key>
 					<string>0x7f</string>
-				</dict>
-				<key>0x3c-0x80000</key>
-				<dict>
-					<key>Action</key>
-					<integer>35</integer>
-					<key>Text</key>
-					<string>/usr/local/bin/sudolikeaboss</string>
 				</dict>
 				<key>0xf700-0x220000</key>
 				<dict>
@@ -3657,6 +3650,8 @@
 			<string>/Users/jooize</string>
 		</dict>
 	</array>
+	<key>NoSyncNeverRemindPrefsChangesCopy</key>
+	<true/>
 	<key>OnlyWhenMoreTabs</key>
 	<false/>
 	<key>OpenArrangementAtStartup</key>
@@ -3705,7 +3700,7 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2015-02-08T21:41:20Z</date>
+	<date>2015-04-13T20:35:25Z</date>
 	<key>SavePasteHistory</key>
 	<false/>
 	<key>Secure Input</key>
@@ -3756,7 +3751,7 @@
 	<key>WebKitDefaultFontSize</key>
 	<integer>11</integer>
 	<key>WebKitStandardFont</key>
-	<string>.Lucida Grande UI</string>
+	<string>.Helvetica Neue DeskInterface</string>
 	<key>WindowNumber</key>
 	<false/>
 	<key>WindowStyle</key>
