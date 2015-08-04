@@ -45,7 +45,7 @@
     set fileformats=unix,dos,mac " Support all three, in this order
     set hidden " You can switch buffers without saving
     let mapleader = "\<Space>"
-    let maplocalleader = ";"
+    let maplocalleader = "\\"
     set modeline " Enable modelines
     set modelines=5 " Amount of lines to scan for modeline (top/bottom)
     set mouse=a " a = Always, i = Insert mode, c = Command line
@@ -136,7 +136,7 @@
     endfunction " }}}
     set foldtext=MyFoldText()
 
-    set hlsearch " Highlight search phrase
+    "set hlsearch " Highlight search phrase
     set incsearch " Highlight *as you type* your search term
     set laststatus=2 " Always show the status line
     set lazyredraw " Do not redraw while running macros
