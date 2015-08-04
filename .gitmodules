@@ -7,3 +7,4 @@
 [submodule "Tmux/.tmux/tmux-powerline-theme"]
 	path = Tmux/.tmux/powerline-theme
 	url = https://github.com/jooize/tmux-powerline-theme
+    ignore = dirty
