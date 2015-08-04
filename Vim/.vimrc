@@ -19,10 +19,13 @@
         let g:rainbow_active = 1
     Plug 'tpope/vim-fugitive'
     Plug 'tpope/vim-git'
-    Plug 'scrooloose/syntastic'
+    Plug 'tpope/vim-liquid'
+    "Plug 'scrooloose/syntastic'
     Plug 'nginx.vim'
     Plug 'othree/html5.vim'
-    Plug 'hynek/vim-python-pep8-indent'
+    "Plug 'hynek/vim-python-pep8-indent'
+    Plug 'parkr/vim-jekyll'
+    Plug 'fatih/vim-go'
 
     call plug#end()
 " }}}
@@ -658,6 +661,12 @@
     let g:SuperTabCrMapping = 0 " Fix, https://github.com/ervandew/supertab/issues/54
     let g:surround_no_mappings = 1 " Fix for Colemak.vim
     silent! call yankstack#setup() " Fix, https://github.com/maxbrunsfeld/vim-yankstack/issues/9
+
+    "
+    " Clipper
+    "
+    " Bind <Leader>y to forward last-yanked text to Clipper
+    nnoremap <Leader>y :call system('nc localhost 8377', @0)<CR>
 
     "
     " Vim Pager
