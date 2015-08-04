@@ -312,14 +312,6 @@
         nnoremap <Leader>n :setlocal relativenumber!<CR>
         nnoremap <Leader>N :setlocal number!<CR>
     " }}}
-    " Copy to remote clipboard {{{
-        nnoremap <silent> <Leader>R :RemoteClipboardSet<CR>:echo 'Sent Vim clipboard " to remote clipboard.'<CR>
-        nnoremap <silent> <expr> <Leader>rs 'yy:RemoteClipboardSet<CR>:echo "Clipboard '.v:register.' sent to remote clipboard."<CR>'
-    " }}}
-    " Paste from remote clipboard {{{
-        nnoremap <silent> <Leader>p :RemoteClipboardGet<CR>"rp
-        nnoremap <silent> <Leader>P :RemoteClipboardGet<CR>"rP
-    " }}}
     " Stay in middle while jumping around {{{
         nnoremap g; g;zz
         nnoremap g, g,zz
@@ -629,9 +621,6 @@
 " Plugin Settings and Fixes {{{
     let g:Powerline_symbols = 'compatible'
     let perl_extended_vars = 1 " Highlight advanced Perl variables inside strings
-    let g:RemoteClipboardGetCommand = "ssh -q 10.1.1.11 pbpaste"
-    let g:RemoteClipboardGetToRegister = 'r'
-    let g:RemoteClipboardSetCommand = "ssh -q 10.1.1.11 pbcopy"
 
     let g:SuperTabCrMapping = 0 " Fix, https://github.com/ervandew/supertab/issues/54
     let g:surround_no_mappings = 1 " Fix for Colemak.vim
