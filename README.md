@@ -6,7 +6,7 @@ git clone git@github.com:jooize/Configuration
 cd Configuration
 git submodule init
 git submodule update
-stow Git Tmux Zsh Vim
+stow git tmux zsh vim
 vim +PlugInstall +qall
 ```
 
