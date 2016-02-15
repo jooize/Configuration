@@ -12,11 +12,18 @@
         let g:airline#extensions#tabline#left_sep = ' '
         let g:airline#extensions#tabline#left_alt_sep = '|'
     Plug 'rkitover/vimpager'
-        let vimpager_passthrough = 1
+        let vimpager_passthrough = 1 " g:?
     Plug 'scrooloose/nerdcommenter'
     "Plug 'matchit.zip'
     Plug 'luochen1990/rainbow'
         let g:rainbow_active = 1
+    Plug 'christoomey/vim-tmux-navigator'
+    Plug 'unblevable/quick-scope'
+    "Plug 'terryma/vim-expand-region'
+    "Plug 'easymotion/vim-easymotion'
+    Plug 'Shougo/unite.vim'
+    "Plug 'Shougo/vimfiler.vim'
+    Plug 'scrooloose/nerdtree'
     "Plug 'tpope/vim-fugitive'
     "Plug 'tpope/vim-git'
     "Plug 'scrooloose/syntastic'
@@ -676,6 +683,9 @@
         "autocmd BufEnter * if mapcheck("y<C-G>", "n") == ":call setreg(v:register, <SNR>33_recall())<CR>" | execute "nunmap <buffer> <silent> y<C-G>" | endif
         autocmd BufEnter * silent! execute "nunmap <buffer> <silent> y<C-G>"
     augroup END
+
+    " Fix
+    let g:ColemakFixNERDTree = 1
 
     "
     " Colemak.vim (reload to be last)
