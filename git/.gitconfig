@@ -1,6 +1,6 @@
 [user]
-	name = Joel Esko
-	email = joel@yuio.se
+	name = Esko
+	email = esko@esko.bar
 
 [core]
 	autocrlf = input
@@ -28,3 +28,7 @@
 
 [push]
 	default = matching
+[filter "lfs"]
+	clean = git-lfs clean %f
+	smudge = git-lfs smudge %f
+	required = true
