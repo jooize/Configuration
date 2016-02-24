@@ -24,7 +24,6 @@ antigen bundle zsh-users/zsh-syntax-highlighting
 #antigen bundle robbyrussell/oh-my-zsh plugins/safe-paste
 antigen apply
 
-alias t='python $HOME/Executables/t/t.py --task-dir ~/ --list Todo.txt --delete-if-empty'
-alias bell='fg ; ""'
+alias bell='echo '
 alias zshrc='$EDITOR $HOME/.zshrc'
 
